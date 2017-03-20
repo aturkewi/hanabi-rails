@@ -12,8 +12,27 @@ RSpec.describe Api::UsersController, type: :controller do
         }
       }
       
-      expect(response.user.username).to equal(user.username)
-      expect(response.token).to be_a(string)
+      body = JSON.parse(response.body)
+
+      
+      expect(body["user"]["username"]).to eq(user.username)
+      expect(body["token"]).not_to eq(nil)
+    end
+    
+    it 'does not return the password' do
+      user = build(:user)
+      post :create, params: {
+        user: {
+          username: user.username,
+          email: user.email,
+          password: user.password
+        }
+      }
+      
+      body = JSON.parse(response.body)
+      
+      expect(body["user"]["password_digest"]).to eq(nil)
+      expect(body["user"]["password"]).to eq(nil)
     end
   end
 end
