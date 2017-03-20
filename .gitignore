@@ -15,3 +15,12 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+*node_modules
+
+# Ignore all node_modules
+
+.DS_Store
+
+*log
+client/*log
