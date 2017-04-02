@@ -33,3 +33,17 @@ export const signup = (data, router) => {
       });
   }
 }
+
+export const login = (data, router) => {
+  return dispatch => {
+    dispatch({ type: 'AUTHENTICATION_REQUEST' });  
+    return ApiService.post('/auth', { data })
+      .then(response => {
+        const { user, token } = response;
+        localStorage.setItem('token', JSON.stringify(token));
+        dispatch(setCurrentUser(user))
+        dispatch(reset('login'));
+        router.history.replace('/games');
+      });
+  }
+}

@@ -74,27 +74,54 @@ describe('Auth Module async actions', () => {
     nock.cleanAll()
   })
 
-  it('creates an AUTHENTICATION_REQUEST and an AUTHENTICATION_SUCCESS when creating a user', () => {
-
-    nock('http://localhost:3001/api')
-      .post('/users')
-      .reply(200, response)
-
-    const store = mockStore(initialState);
+  describe('signup(data, router)', () => {
     
-    return store.dispatch(actions.signup({
-      user: {
-        first_name: 'Bill',
-        last_name: 'Murray',
-        username: 'billy', 
-        email: 'bill@gmail.com',
-        password: 'password'
-      }
-    }, router))
-      .then(() => expect(store.getActions()).toEqual([
-        { type: 'AUTHENTICATION_REQUEST' },
-        { type: 'AUTHENTICATION_SUCCESS', user },
-        { meta: { form: "signup" }, type: "@@redux-form/RESET" }
-      ]));
+    it('creates an AUTHENTICATION_REQUEST and an AUTHENTICATION_SUCCESS when creating a user', () => {
+
+      nock('http://localhost:3001/api')
+        .post('/users')
+        .reply(200, response)
+
+      const store = mockStore(initialState);
+      
+      return store.dispatch(actions.signup({
+        user: {
+          first_name: 'Bill',
+          last_name: 'Murray',
+          username: 'billy', 
+          email: 'bill@gmail.com',
+          password: 'password'
+        }
+      }, router))
+        .then(() => expect(store.getActions()).toEqual([
+          { type: 'AUTHENTICATION_REQUEST' },
+          { type: 'AUTHENTICATION_SUCCESS', user },
+          { meta: { form: "signup" }, type: "@@redux-form/RESET" }
+        ]));
+    })
+  })
+
+  describe('login(data, router)', () => {
+
+    it('creates an AUTHENTICATION_REQUEST and an AUTHENTICATION_SUCCESS when creating a user', () => {
+
+      nock('http://localhost:3001/api')
+        .post('/auth')
+        .reply(200, response)
+
+      const store = mockStore(initialState);
+      
+      return store.dispatch(actions.login({
+        user: {
+          username: 'billy', 
+          password: 'password'
+        }
+      }, router))
+        .then(() => expect(store.getActions()).toEqual([
+          { type: 'AUTHENTICATION_REQUEST' },
+          { type: 'AUTHENTICATION_SUCCESS', user },
+          { meta: { form: "login" }, type: "@@redux-form/RESET" }
+        ]));
+    })
   })
 })
