@@ -13,6 +13,11 @@ const router = {
   }
 };
 const store = mockStore({ form: {} });
+const props = {
+  submitting: false,
+  onSubmit: jest.fn(),
+  handleSubmit: jest.fn()
+}
 
 describe('SignupForm', () => {
   let wrapper; 
@@ -20,7 +25,7 @@ describe('SignupForm', () => {
   beforeEach(() => {
     wrapper = mount(
       <Provider store={store}>
-        <SignupForm />
+        <SignupForm {...props} />
       </Provider>
     );
   })
@@ -30,11 +35,7 @@ describe('SignupForm', () => {
   })
 
   it('wraps content in a div with .signup_form class', () => {
-    expect(wrapper.find('.signup_form').length).toEqual(1);
-  })
-
-  it('renders three Input components', () => {
-    expect(wrapper.find('Input').length).toEqual(3);
+    expect(wrapper.find('div.signup_form').length).toEqual(1);
   })
   
 })
