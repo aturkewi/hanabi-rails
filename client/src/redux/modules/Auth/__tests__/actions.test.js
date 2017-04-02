@@ -11,7 +11,7 @@ window.localStorage = (() => {
       return store[key]
     },
     setItem(key, value) {
-      store[key] = value.toString()
+      store[key] = JSON.stringify(value.toString())
     },
     removeItem(key) {
       store[key] = null;
@@ -138,6 +138,24 @@ describe('Auth Module async actions', () => {
           { type: 'AUTHENTICATION_REQUEST' },
           { type: 'AUTHENTICATION_SUCCESS', user },
           { meta: { form: "login" }, type: "@@redux-form/RESET" }
+        ]));
+    })
+  })
+
+  describe('authenticate()', () => {
+
+    it('sends a JWT token to the API for authentication verification', () => {
+      nock('http://localhost:3001/api')
+        .post('/auth/refresh')
+        .reply(200, response)
+
+      const store = mockStore(initialState);
+      localStorage.setItem('token', 'abc.123.def.456');
+      
+      return store.dispatch(actions.authenticate())
+        .then(() => expect(store.getActions()).toEqual([
+          { type: 'AUTHENTICATION_REQUEST' },
+          { type: 'AUTHENTICATION_SUCCESS', user }
         ]));
     })
   })

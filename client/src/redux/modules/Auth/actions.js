@@ -46,7 +46,7 @@ export const signup = (data, router) => {
 
 export const login = (data, router) => {
   return dispatch => {
-    dispatch({ type: 'AUTHENTICATION_REQUEST' });  
+    dispatch(authenticationRequest()); 
     return ApiService.post('/auth', { data })
       .then(response => {
         const { user, token } = response;
@@ -56,4 +56,20 @@ export const login = (data, router) => {
         router.history.replace('/games');
       });
   }
+}
+
+export const authenticate = () => {
+  return dispatch => {
+    dispatch(authenticationRequest());
+    return ApiService.post('/auth/refresh')
+      .then(response => {
+        const { user, token } = response;
+        localStorage.setItem('token', JSON.stringify(token));
+        dispatch(setCurrentUser(user));
+      })
+      .catch(() => {
+        localStorage.removeItem('token');
+        window.location = '/login';
+      });
+  };
 }
