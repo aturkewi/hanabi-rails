@@ -20,6 +20,9 @@ export default (state = initialState, action) => {
         currentUser: action.user
       }
 
+    case 'AUTHENTICATION_FAILURE':
+      return Object.assign({}, initialState, { isAuthenticating: false });
+
     default:
       return state;
   }

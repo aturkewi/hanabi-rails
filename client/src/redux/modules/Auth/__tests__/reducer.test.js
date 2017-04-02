@@ -10,7 +10,7 @@ describe('Auth Module Reducer', () => {
     })
   })
 
-  it('handles an AUTHENTICATION_REQUEST', () => {
+  it('handles AUTHENTICATION_REQUEST', () => {
     expect(reducer(undefined, { type: 'AUTHENTICATION_REQUEST' })).toEqual({
       isAuthenticated: false,
       isAuthenticating: true,
@@ -18,7 +18,7 @@ describe('Auth Module Reducer', () => {
     })
   })
 
-  it('handles an AUTHENTICATION_SUCCESS', () => {
+  it('handles AUTHENTICATION_SUCCESS', () => {
     const user = {
       first_name: "Bill",
       last_name: "Murray", 
@@ -33,6 +33,14 @@ describe('Auth Module Reducer', () => {
       isAuthenticated: true,
       isAuthenticating: false, 
       currentUser: user
+    })
+  })
+
+  it('handles AUTHENTICATION_FAILURE', () => {
+    expect(reducer(undefined, { type: 'AUTHENTICATION_FAILURE' })).toEqual({
+      isAuthenticated: false,
+      isAuthenticating: false,
+      currentUser: {}
     })
   })
 })
