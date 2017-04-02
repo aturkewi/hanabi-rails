@@ -22,6 +22,10 @@ export const logout = (router) => {
   return { type: 'LOGOUT' };
 }
 
+export const authenticationFailure = () => {
+  return { type: 'AUTHENTICATION_FAILURE' };
+}
+
 /**
  * @param {Auth} async actions
  */

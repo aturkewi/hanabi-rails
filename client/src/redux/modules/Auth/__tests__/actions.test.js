@@ -52,6 +52,13 @@ describe('Auth Module action creators', () => {
       expect(actions.logout(router)).toEqual({ type: 'LOGOUT' });
     })
   })
+
+  describe('authenticationFailure()', () => {
+
+    it('creates an action for authentication failure', () => {
+      expect(actions.authenticationFailure()).toEqual({ type: 'AUTHENTICATION_FAILURE' });
+    })
+  })
   
 })
 
