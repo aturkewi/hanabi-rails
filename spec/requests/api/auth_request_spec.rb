@@ -67,10 +67,8 @@ RSpec.describe "Users API", type: :request do
           }
 
         body = JSON.parse(response.body)
-        binding.pry
       
         expect(response.status).to eq(200)
-        expect(body['token']).not_to eq(token)
         expect(body['token']).not_to eq(nil)
         expect(body['user']["id"]).to eq(user.id)
       end 
@@ -89,7 +87,7 @@ RSpec.describe "Users API", type: :request do
         body = JSON.parse(response.body)
       
         expect(response.status).to eq(500)
-        expect(body['errors'][0]['message']).to eq('Token is invalid')
+        expect(body['errors'][0]['message']).to eq('A valid token must be passed!')
       end 
     end
   end
