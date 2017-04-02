@@ -1,6 +1,7 @@
 import {
   headers,
-  parseResponse
+  parseResponse,
+  queryString
 } from '../../Api';
 import fetch from 'isomorphic-fetch';
 import nock from 'nock';
@@ -45,6 +46,13 @@ describe('Api Service', () => {
       const response = await fetch('http://localhost:3001/api');
       const parsedResponse = await parseResponse(response);
       expect(parsedResponse).toEqual({ id: 123 })
+    })
+  })
+
+  describe('queryString(params)', () => {
+
+    it('returns the params as a URL query string', () => {
+      expect(queryString({ first_name: 'Bill', last_name: 'Murray' })).toEqual('?first_name=Bill&last_name=Murray');
     })
   })
 })

@@ -21,3 +21,9 @@ export const parseResponse = (response) => {
       return json;
     });
 }
+
+export const queryString = (params: Object) => {
+  const query: string = Object.keys(params).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
+
+  return `${query.length ? '?' : ''}${query}`;
+}
