@@ -1,14 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
-import './App.css';
-import './simple-grid.css'
 import { addPlayer, startGame, discardCard, increaseClue, drawCard, nextTurn, playCard, giveClue } from './actions/hanabiActions'
 import { signUp, updateErrors, login } from './actions/authActions';
 
 import NavBar from './components/navigation/Navbar';
 import Home from './components/Home';
-
+import { Button } from 'semantic-ui-react'
 const App = (props) => {
 
   const byChild = () => {

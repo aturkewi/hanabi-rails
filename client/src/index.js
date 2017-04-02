@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router'
 import Routes from './Routes'
 import configureStore from './store/configureStore';
+import 'semantic-ui-css/semantic.min.css'
 
 const store = configureStore();
 
