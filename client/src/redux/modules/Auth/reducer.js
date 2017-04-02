@@ -23,6 +23,9 @@ export default (state = initialState, action) => {
     case 'AUTHENTICATION_FAILURE':
       return Object.assign({}, initialState, { isAuthenticating: false });
 
+    case 'LOGOUT': 
+      return Object.assign({}, initialState, { isAuthenticating: false });
+
     default:
       return state;
   }
