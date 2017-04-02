@@ -1,11 +1,18 @@
 const initialState = {
   isAuthenticated: false, 
-  willAuthenticate: true, 
+  isAuthenticating: true, 
   currentUser: {}
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
+    
+    case 'AUTHENTICATION_REQUEST':
+      return {
+        ...state,
+        isAuthenticating: true,
+      }
+
     default:
       return state;
   }

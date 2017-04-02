@@ -2,10 +2,18 @@ import reducer from '../reducer';
 
 describe('Auth Module Reducer', () => {
 
-  it('should return the intitial state by default', () => {
+  it('returns the intitial state by default', () => {
     expect(reducer(undefined, {})).toEqual({
       isAuthenticated: false,
-      willAuthenticate: true,
+      isAuthenticating: true,
+      currentUser: {},
+    })
+  })
+
+  it('handles an AUTHENTICATION_REQUEST', () => {
+    expect(reducer(undefined, { type: 'AUTHENTICATION_REQUEST' })).toEqual({
+      isAuthenticated: false,
+      isAuthenticating: true,
       currentUser: {},
     })
   })
