@@ -1,7 +1,7 @@
 class Auth
 
-  def self.create_token(user_object)
-    payload = { user: JSON.parse(user_object.to_json) }
+  def self.create_token(user_id)
+    payload = { user_id: user_id }
     token = JWT.encode(payload, ENV['AUTH_SECRET'], ENV['AUTH_ALGORITHM']) 
   end
 

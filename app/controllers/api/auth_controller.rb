@@ -4,7 +4,7 @@ class Api::AuthController < ApplicationController
     user = User.find_by(username: params[:user][:username])
     if user && user.authenticate(params[:user][:password])
       render json: { 
-        token: Auth.create_token(user), 
+        token: Auth.create_token(user.id), 
         user: user.attributes.except("password_digest") 
       }
     else
