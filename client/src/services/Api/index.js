@@ -10,3 +10,14 @@ export const headers = () => {
     'Authorization': `Bearer: ${token}`,
   }
 }
+
+export const parseResponse = (response) => {
+  return response.json()
+    .then(json => {
+      if (!response.ok) {
+        return Promise.reject(json);
+      }
+
+      return json;
+    });
+}

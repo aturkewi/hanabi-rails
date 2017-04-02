@@ -1,7 +1,9 @@
 import {
-  headers
+  headers,
+  parseResponse
 } from '../../Api';
 import fetch from 'isomorphic-fetch';
+import nock from 'nock';
 
 global.window = document.defaultView;
 window.localStorage = (() => {
@@ -17,7 +19,11 @@ window.localStorage = (() => {
       store = {}
     },
   };
-})(0)
+})()
+
+const api = nock('http://localhost:3001')
+              .get('/api')
+              .reply(200, { id: 123 })
 
 describe('Api Service', () => {
 
@@ -30,6 +36,15 @@ describe('Api Service', () => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer: abc.123.def.456',
       })
+    })
+  })
+
+  describe('parseResponse(response)', () => {
+
+    it('should parse the HTTP rsponse into json', async function() {
+      const response = await fetch('http://localhost:3001/api');
+      const parsedResponse = await parseResponse(response);
+      expect(parsedResponse).toEqual({ id: 123 })
     })
   })
 })
