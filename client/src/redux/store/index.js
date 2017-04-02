@@ -5,11 +5,11 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import { reducer as form } from 'redux-form';
-import Auth from '../modules/Auth';
+import auth from '../modules/Auth/reducer';
 
 const reducers = combineReducers({
   form,
-  auth: Auth.reducer,
+  auth,
 });
 const middleware = [thunk];
 
