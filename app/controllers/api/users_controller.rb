@@ -5,7 +5,7 @@ class Api::UsersController < ApplicationController
       render 'users/user_with_token.json.jbuilder', user: @user
     else
       render json: { 
-        errors: user.errors.full_messages 
+        errors: @user.errors 
       }, status: 500
     end
   end
