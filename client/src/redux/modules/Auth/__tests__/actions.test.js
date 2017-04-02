@@ -7,11 +7,14 @@ global.window = document.defaultView;
 window.localStorage = (() => {
   let store = {};
   return {
-    getItem(key: string) {
+    getItem(key) {
       return store[key]
     },
-    setItem(key: string, value: string) {
+    setItem(key, value) {
       store[key] = value.toString()
+    },
+    removeItem(key) {
+      store[key] = null;
     },
     clear() {
       store = {}
@@ -40,6 +43,13 @@ describe('Auth Module action creators', () => {
 
     it('creates an action to set current user', () => {
       expect(actions.setCurrentUser({ username: 'billy' })).toEqual({ type: 'AUTHENTICATION_SUCCESS', user: { username: 'billy' }});
+    })
+  })
+
+  describe('logout(router)', () => {
+
+    it('creates an action to logout a user', () => {
+      expect(actions.logout(router)).toEqual({ type: 'LOGOUT' });
     })
   })
   
@@ -124,4 +134,5 @@ describe('Auth Module async actions', () => {
         ]));
     })
   })
+  
 })

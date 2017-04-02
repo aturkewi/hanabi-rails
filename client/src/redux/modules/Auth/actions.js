@@ -16,6 +16,12 @@ export const authenticationRequest = () => {
   return { type: 'AUTHENTICATION_REQUEST' };
 }
 
+export const logout = (router) => {
+  localStorage.removeItem('token');
+  router.history.replace('./login');
+  return { type: 'LOGOUT' };
+}
+
 /**
  * @param {Auth} async actions
  */
