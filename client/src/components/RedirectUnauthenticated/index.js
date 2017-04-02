@@ -3,14 +3,14 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 type Props = {
-  path: string,
-  exactly?: any,
   component: any,
+  path: string,
+  exactly?: boolean,
   isAuthenticated: boolean,
   isAuthenticating: boolean,
 }
 
-const MatchAuthenticated = ({
+const RedirectAuthenticated = ({
   path,
   exactly,
   isAuthenticated,
@@ -21,11 +21,11 @@ const MatchAuthenticated = ({
     exactly={exactly}
     path={path}
     render={(props) => {
-      if (isAuthenticated) { return <Component {...props} />; }
+      if (isAuthenticated) { return <Redirect to={{ pathname: '/' }} />; }
       if (isAuthenticating) { return null; }
-      if (!isAuthenticating && !isAuthenticated) { return <Redirect to={{ pathname: '/login' }} />; }
+      if (!isAuthenticating && !isAuthenticated) { return <Component {...props} />; }
       return null;
     }}
   />;
 
-export default MatchAuthenticated;
+export default RedirectAuthenticated;
