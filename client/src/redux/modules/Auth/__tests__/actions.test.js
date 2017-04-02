@@ -27,6 +27,24 @@ const router = {
   }
 }
 
+describe('Auth Module action creators', () => {
+
+  describe('authenticationRequest()', () => {
+
+    it('creates an action to authenticate request', () => {
+      expect(actions.authenticationRequest()).toEqual({ type: 'AUTHENTICATION_REQUEST' });
+    })
+  })
+
+  describe('setCurrentUser(user)', () => {
+
+    it('creates an action to set current user', () => {
+      expect(actions.setCurrentUser({ username: 'billy' })).toEqual({ type: 'AUTHENTICATION_SUCCESS', user: { username: 'billy' }});
+    })
+  })
+  
+})
+
 describe('Auth Module async actions', () => {
   let initialState;
   let response;
