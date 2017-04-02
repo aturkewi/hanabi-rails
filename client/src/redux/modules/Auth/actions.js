@@ -29,10 +29,10 @@ export const authenticationFailure = () => {
  * @param {Auth} async actions
  */
 
-export const signup = (data, router) => {
+export const signup = (user, router) => {
   return dispatch => {
     dispatch(authenticationRequest());
-    return ApiService.post('/users', { data })
+    return ApiService.post('/users', user)
       .then(response => {
         const { user, token } = response;
         localStorage.setItem('token', JSON.stringify(token));
@@ -43,10 +43,10 @@ export const signup = (data, router) => {
   }
 }
 
-export const login = (data, router) => {
+export const login = (user, router) => {
   return dispatch => {
     dispatch(authenticationRequest()); 
-    return ApiService.post('/auth', { data })
+    return ApiService.post('/auth', user)
       .then(response => {
         const { user, token } = response;
         localStorage.setItem('token', JSON.stringify(token));
