@@ -1,6 +1,5 @@
 import { reset } from 'redux-form';
 import ApiService from '../../../services/Api';
-import fetch from 'isomorphic-fetch';
 
 /**
  * @param {Auth} creator actions
