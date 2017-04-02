@@ -2,25 +2,49 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router, 
-  Switch
+  Switch,
+  Redirect, 
+  Route
 } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { logout } from '../redux/modules/Auth/actions';
+import { authenticate, authenticationFailure, logout } from '../redux/modules/Auth/actions';
 import Signup from '../views/Signup';
 import Navbar from '../components/Navbar';
 
+type CurrentUser = {
+  id: number,
+  first_name: string,
+  last_name: string,
+  username: string,
+  email: string,
+}
+
 type Props = {
+  isAuthenticating: boolean,
   isAuthenticated: boolean,
+  currentUser: CurrentUser,
   logout: () => void,
+  authenticate: () => void,
+  authenticationFailure: () => void,
 }
 
 class App extends Component {
 
   props: Props
 
+  componentDidMount() {
+    const token: string = localStorage.getItem('token');
+    if (token) {
+      console.log('Fetching a new token!');
+      this.props.authenticate();
+    } else {
+      this.props.authenticationFailure();
+    }
+  }
+
   render() {
-    const { isAuthenticated, logout } = this.props;
+    const { isAuthenticated, isAuthenticating, currentUser, logout } = this.props;
 
     return (
       <Router>
@@ -28,6 +52,13 @@ class App extends Component {
           <div className="app">
             <Navbar isAuthenticated={isAuthenticated} logout={logout} />
             <Switch>
+              <Route path="/" exact render={() => (
+                (isAuthenticated && currentUser) ? (
+                  <h1>Welcome To Hanabi</h1>
+                ) : (
+                  <Redirect to="/login" />
+                )
+              )} />
               <Signup />
               
             </Switch>
@@ -40,6 +71,8 @@ class App extends Component {
 
 export default connect(
   state => ({
+    isAuthenticating: state.auth.isAuthenticating,
     isAuthenticated: state.auth.isAuthenticated,
-  }), { logout }
+    currentUser: state.auth.currentUser,
+  }), { logout, authenticate, authenticationFailure }
 )(App);
