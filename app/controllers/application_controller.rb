@@ -12,10 +12,10 @@ class ApplicationController < ActionController::API
           @user_id = decoded[0]["user_id"] if decoded
         rescue JWT::DecodeError
           errors.push({ message: 'A valid token must be passed!' })
-        # rescue JWT::ExpiredSignature
-        #   errors.push({ message: 'The token has expired.' })
-        # rescue JWT::InvalidIssuerError
-        #   errors.push({ message: 'The token does not have a valid issuer.' })
+        rescue JWT::ExpiredSignature
+          errors.push({ message: 'The token has expired.' })
+        rescue JWT::InvalidIssuerError
+          errors.push({ message: 'The token does not have a valid issuer.' })
         end
 
         if !current_user || !decoded || errors.length > 0
