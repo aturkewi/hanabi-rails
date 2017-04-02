@@ -8,7 +8,6 @@ import { reducer as form } from 'redux-form';
 
 const reducers = combineReducers({
   form,
-  auth,
 });
 const middleware = [thunk];
 
