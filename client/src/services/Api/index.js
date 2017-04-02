@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { SubmissionError } from 'redux-form';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -21,7 +22,7 @@ export const parseResponse = (response) => {
   return response.json()
     .then(json => {
       if (!response.ok) {
-        return Promise.reject(json);
+        return Promise.reject(json.errors);
       }
 
       return json;
@@ -42,7 +43,9 @@ export default {
         headers: headers(),
       })
       .then(parseResponse)
-      .catch(console.log);
+      .catch(err => {
+        throw new SubmissionError(err)
+      });;
   },
   
   post(url, data = {}) {
@@ -53,7 +56,9 @@ export default {
       body,
     })
     .then(parseResponse)
-    .catch(console.log);
+    .catch(err => {
+      throw new SubmissionError(err)
+    });
   },
 
   patch(url, data) {
@@ -65,7 +70,9 @@ export default {
       body,
     })
     .then(parseResponse)
-    .catch(console.log);
+    .catch(err => {
+      throw new SubmissionError(err)
+    });
   }, 
 
   delete(url) {
@@ -74,6 +81,8 @@ export default {
       headers: headers(),
     })
     .then(parseResponse)
-    .catch(console.log);
+    .catch(err => {
+      throw new SubmissionError(err)
+    });
   }
 }
