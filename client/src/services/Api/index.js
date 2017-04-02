@@ -5,12 +5,8 @@ const API = process.env.REACT_APP_API_URL;
 
 export const headers = () => {
   
-  const token = localStorage.getItem('token');
-  if (token) {
-    
-    JSON.parse(token)
-  }
-  
+  const token = JSON.parse(localStorage.getItem('token'));
+
   return {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -45,7 +41,7 @@ export default {
       .then(parseResponse)
       .catch(err => {
         throw new SubmissionError(err)
-      });;
+      });
   },
   
   post(url, data = {}) {

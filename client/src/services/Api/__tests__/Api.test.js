@@ -35,7 +35,7 @@ describe('Api Service', () => {
       expect(headers()).toEqual({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer: \"abc.123.def.456\"',
+        'Authorization': 'Bearer: abc.123.def.456',
       })
     })
   })
