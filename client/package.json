@@ -4,12 +4,14 @@
   "private": true,
   "devDependencies": {
     "enzyme": "^2.8.0",
+    "flow-bin": "^0.42.0",
     "nock": "^9.0.11",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts": "0.8.5",
     "redux-mock-store": "^1.2.2"
   },
   "dependencies": {
+    "aphrodite": "^1.2.0",
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
@@ -25,6 +27,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   }
 }
