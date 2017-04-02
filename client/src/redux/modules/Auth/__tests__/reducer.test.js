@@ -5,24 +5,26 @@ const user = {
   last_name: "Murray", 
   username: "billy",
   email: "bill@gmail.com"
-}
+};
+const initialState = {
+  isAuthenticated: false,
+  isAuthenticating: true,
+  currentUser: {}
+};
+const loggedOutState = {
+  isAuthenticated: false,
+  isAuthenticating: false,
+  currentUser: {}
+};
 
 describe('Auth Module Reducer', () => {
 
   it('returns the intitial state by default', () => {
-    expect(reducer(undefined, {})).toEqual({
-      isAuthenticated: false,
-      isAuthenticating: true,
-      currentUser: {}
-    })
+    expect(reducer(undefined, {})).toEqual(initialState)
   })
 
   it('handles AUTHENTICATION_REQUEST', () => {
-    expect(reducer(undefined, { type: 'AUTHENTICATION_REQUEST' })).toEqual({
-      isAuthenticated: false,
-      isAuthenticating: true,
-      currentUser: {}
-    })
+    expect(reducer(undefined, { type: 'AUTHENTICATION_REQUEST' })).toEqual(initialState)
   })
 
   it('handles AUTHENTICATION_SUCCESS', () => {
@@ -37,11 +39,7 @@ describe('Auth Module Reducer', () => {
   })
 
   it('handles AUTHENTICATION_FAILURE', () => {
-    expect(reducer(undefined, { type: 'AUTHENTICATION_FAILURE' })).toEqual({
-      isAuthenticated: false,
-      isAuthenticating: false,
-      currentUser: {}
-    })
+    expect(reducer(undefined, { type: 'AUTHENTICATION_FAILURE' })).toEqual(loggedOutState)
   })
 
   it('handles LOGOUT', () => {
@@ -49,10 +47,6 @@ describe('Auth Module Reducer', () => {
       currentUser: user, 
       isAuthenticating: false, 
       isAuthenticated: true
-    }, { type: 'LOGOUT' })).toEqual({
-      isAuthenticated: false,
-      isAuthenticating: false,
-      currentUser: {}
-    })
+    }, { type: 'LOGOUT' })).toEqual(loggedOutState)
   })
 })
