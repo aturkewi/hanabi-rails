@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router, 
   Switch
 } from 'react-router-dom';
+import Signup from '../views/Signup';
 
 class App extends Component {
 
@@ -11,6 +12,7 @@ class App extends Component {
       <Router>
         <div className="app">
           <Switch>
+            <Signup />
             
           </Switch>
         </div>
