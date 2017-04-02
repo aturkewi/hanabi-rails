@@ -1,8 +1,14 @@
 import fetch from 'isomorphic-fetch';
 
+const API = process.env.REACT_APP_API_URL;
+
 export const headers = () => {
   
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = localStorage.getItem('token');
+  if (token) {
+    
+    JSON.parse(token)
+  }
   
   return {
     'Accept': 'application/json',
@@ -22,15 +28,15 @@ export const parseResponse = (response) => {
     });
 }
 
-export const queryString = (params: Object) => {
-  const query: string = Object.keys(params).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
+export const queryString = (params) => {
+  const query = Object.keys(params).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
 
   return `${query.length ? '?' : ''}${query}`;
 }
 
 export default {
 
-  fetch(url: string, params: Object = {}) {
+  get(url, params = {}) {
     return fetch(`${API}${url}${queryString(params)}`, {
         method: 'GET', 
         headers: headers(),
@@ -39,9 +45,8 @@ export default {
       .catch(console.log);
   },
   
-  post(url: string, data: Object = {}) {
-    const body: string = JSON.stringify(data);
-
+  post(url, data = {}) {
+    const body = JSON.stringify(data);
     return fetch(`${API}${url}`, {
       method: 'POST',
       headers: headers(),
@@ -51,8 +56,8 @@ export default {
     .catch(console.log);
   },
 
-  patch(url: string, data: Object) {
-    const body: string = JSON.stringify(data);
+  patch(url, data) {
+    const body = JSON.stringify(data);
 
     return fetch(`${API}${url}`, {
       method: 'PATCH', 
@@ -63,7 +68,7 @@ export default {
     .catch(console.log);
   }, 
 
-  delete(url: string) {
+  delete(url) {
     return fetch(`${API}${url}`, {
       method: 'DELETE', 
       headers: headers(),
