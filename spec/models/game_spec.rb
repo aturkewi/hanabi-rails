@@ -26,7 +26,7 @@ RSpec.describe Game, type: :model do
       @user = create(:user)
     end
     
-    it 'has many game_cards' do 
+    it 'has many game cards' do 
       hand = Hand.create(user: @user, game: @game)
       game_card = @game.game_cards.build(hand: hand, display_color: false, location: 0, display_number: false, color: 'blue', number: 1)
       game_card.save

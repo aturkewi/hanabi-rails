@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
       expect(user.errors.full_messages).to eq(["Password can't be blank", "Email can't be blank", "Username can't be blank"])
     end 
 
-    it 'requirs that a username and email are unique' do 
+    it 'requires that a username and email are unique' do 
       create(:user)
       user = build(:user)
 
@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
       expect(@user.games.first.id).not_to eq(nil)
     end
 
-    it 'has many game_cards through hands' do 
+    it 'has many game cards through hands' do 
       hand = @user.hands.create(game: @game)
       hand.game_cards.create(game: hand.game, display_color: false, location: 0, display_number: false, color: 'blue', number: 1)
       

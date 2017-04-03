@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe GameCard, type: :model do
   describe 'validations' do 
 
-    it 'requires a color, number, a game and a location' do 
+    it 'requires a color, number, game and location' do 
       game_card = build(:game_card, color: nil, number: nil, game: nil, location: nil)
 
       expect(game_card.valid?).to equal(false)
@@ -11,7 +11,7 @@ RSpec.describe GameCard, type: :model do
     end 
   end
 
-  describe 'Enum Location statuses' do
+  describe 'Enumerator location statuses' do
     let(:locations) { [:deck, :played, :discarded, :in_hand] }
 
     it 'have the right index' do
