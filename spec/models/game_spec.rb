@@ -19,6 +19,15 @@ RSpec.describe Game, type: :model do
     end
   end
 
+  describe 'on creation' do 
+    it 'creates the game cards and sets the location to deck' do 
+      game = create(:game) 
+
+      game.game_cards.each { |card| expect(card.location).to equal('deck') }
+      expect(game.game_cards.count).to eq(50)
+    end
+  end
+
   describe 'relationships' do 
 
     before(:each) do 
