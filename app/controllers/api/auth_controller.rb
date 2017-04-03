@@ -3,11 +3,15 @@ class Api::AuthController < ApplicationController
 
   def login
     @user = User.find_by(username: params[:user][:username])
-    if @user && @user.authenticate(params[:user][:password])
-      render 'users/user_with_token.json.jbuilder', user: @user
-    else
+    if !@user
       render json: { 
-        errors: [ { message: 'Incorrect username or password' } ]
+        errors: { username: ['Username is invalid!'] }
+      }, status: 500
+    elsif @user && @user.authenticate(params[:user][:password])
+      render 'users/user_with_token.json.jbuilder', user: @user
+    else 
+      render json: { 
+        errors: { password: ['Password is invalid!'] }
       }, status: 500
     end
   end
