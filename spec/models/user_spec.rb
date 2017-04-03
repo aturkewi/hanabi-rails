@@ -21,23 +21,31 @@ RSpec.describe User, type: :model do
 
   describe 'relationships' do 
 
-    it 'has many hands' do 
-      game = create(:game)
-      user = create(:user)
-      user.hands.create(:hand, game: game)
-      
-      expect(user.hands.count).to eq(1)
-      expect(user.hands.first.id).not_to eq(nil)
+    before(:each) do 
+      @game = create(:game)
+      @user = create(:user)
     end
 
-    it 'has many games through hands'
+    it 'has many hands' do 
+      @user.hands.create(game: @game)
+      
+      expect(@user.hands.count).to eq(1)
+      expect(@user.hands.first.id).not_to eq(nil)
+    end
+
+    it 'has many games through hands' do 
+      @user.hands.create(game: @game)
+      
+      expect(@user.games.count).to eq(1)
+      expect(@user.games.first.id).not_to eq(nil)
+    end
 
     it 'has many game_cards through hands' do 
-      user = create(:user)
-      user.games.create(:game)
+      hand = @user.hands.create(game: @game)
+      hand.game_cards.create(game: hand.game, display_color: false, location: 0, display_number: false, color: 'blue', number: 1)
       
-      expect(user.games.count).to eq(1)
-      expect(user.games.first.id).not_to eq(nil)
+      expect(@user.game_cards.count).to eq(1)
+      expect(@user.game_cards.first.id).not_to eq(nil)
     end
   end
 end
