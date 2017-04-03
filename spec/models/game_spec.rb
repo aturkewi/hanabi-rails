@@ -20,33 +20,33 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'relationships' do 
+
+    before(:each) do 
+      @game = create(:game)
+      @user = create(:user)
+    end
     
     it 'has many game_cards' do 
-      game = create(:game)
-      user = create(:user)
-      hand = create(:hand, user: user, game: game)
-      game_card = game.game_cards.build(hand: hand, display_color: false, display_number: false, color: 'blue', number: 1).attributes.merge(location: 'in_hand');
+      hand = Hand.create(user: @user, game: @game)
+      game_card = @game.game_cards.build(hand: hand, display_color: false, location: 0, display_number: false, color: 'blue', number: 1)
       game_card.save
       
-      expect(game.game_cards.count).to eq(1)
-      expect(game.game_cards.first.id).not_to eq(nil)
+      expect(@game.game_cards.count).to eq(1)
+      expect(@game.game_cards.first.id).not_to eq(nil)
     end
 
     it 'has many hands' do 
-      game = create(:game)
-      user = create(:user)
-      game.hands.create(:hand, user: user)
+      @game.hands.create(user: @user)
       
-      expect(game.hands.count).to eq(1)
-      expect(game.hands.first.id).not_to eq(nil)
+      expect(@game.hands.count).to eq(1)
+      expect(@game.hands.first.id).not_to eq(nil)
     end
 
-    it 'has many players through hands' do 
-      game = create(:game)
-      game.users.create(:user)
+    it 'has many users through hands' do 
+      @game.users << @user
       
-      expect(game.players.count).to eq(1)
-      expect(game.players.first.id).not_to eq(nil)
+      expect(@game.users.count).to eq(1)
+      expect(@game.users.first.id).not_to eq(nil)
     end
   end
 end
