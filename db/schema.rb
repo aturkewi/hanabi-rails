@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20170403022257) do
   create_table "game_cards", force: :cascade do |t|
     t.integer  "game_id"
     t.integer  "hand_id"
-    t.integer  "location"
+    t.integer  "location",       default: 0,     null: false
     t.boolean  "display_color",  default: false
     t.boolean  "display_number", default: false
     t.string   "color"
