@@ -5,5 +5,13 @@ class Game < ApplicationRecord
 
   validates :title, presence: true
   validates :title, uniqueness: true
+
+  after_create :create_deck 
+
+  protected
+
+    def create_deck 
+      Deck.cards.each { |card| self.game_cards.create(card) }
+    end
   
 end

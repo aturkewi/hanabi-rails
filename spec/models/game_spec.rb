@@ -19,11 +19,12 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  describe 'on creation' do 
+  describe 'after creation' do 
+
     it 'creates the game cards and sets the location to deck' do 
       game = create(:game) 
 
-      game.game_cards.each { |card| expect(card.location).to equal('deck') }
+      game.game_cards.each { |card| expect(card.location).to eq('deck') }
       expect(game.game_cards.count).to eq(50)
     end
   end
@@ -36,11 +37,6 @@ RSpec.describe Game, type: :model do
     end
     
     it 'has many game cards' do 
-      hand = Hand.create(user: @user, game: @game)
-      game_card = @game.game_cards.build(hand: hand, display_color: false, location: 0, display_number: false, color: 'blue', number: 1)
-      game_card.save
-      
-      expect(@game.game_cards.count).to eq(1)
       expect(@game.game_cards.first.id).not_to eq(nil)
     end
 
