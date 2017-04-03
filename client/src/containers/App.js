@@ -3,27 +3,22 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router, 
   Switch,
-  Redirect, 
   Route
 } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { authenticate, authenticationFailure, logout } from '../redux/modules/Auth/actions';
-import Signup from '../views/Signup';
 import Navbar from '../components/Navbar';
-
-type CurrentUser = {
-  id: number,
-  first_name: string,
-  last_name: string,
-  username: string,
-  email: string,
-}
+import MatchAuthenticated from '../components/MatchAuthenticated';
+import RedirectUnauthenticated from '../components/RedirectUnauthenticated';
+import Games from '../views/Games';
+import Signup from '../views/Signup';
+import Login from '../views/Login';
+import NotFound from '../components/NotFound';
 
 type Props = {
   isAuthenticating: boolean,
   isAuthenticated: boolean,
-  currentUser: CurrentUser,
   logout: () => void,
   authenticate: () => void,
   authenticationFailure: () => void,
@@ -44,28 +39,25 @@ class App extends Component {
   }
 
   render() {
-    const { isAuthenticated, isAuthenticating, currentUser, logout } = this.props;
+    const { isAuthenticated, isAuthenticating, logout } = this.props;
+    const authProps = { isAuthenticated, isAuthenticating };
 
     return (
       <Router>
-        <Container>
+        <Container fluid>
           <div className="app">
             <Navbar isAuthenticated={isAuthenticated} logout={logout} />
             <Switch>
-              <Route path="/" exact render={() => (
-                (isAuthenticated && currentUser) ? (
-                  <h1>Welcome To Hanabi</h1>
-                ) : (
-                  <Redirect to="/login" />
-                )
-              )} />
-              <Signup />
-              
+              <MatchAuthenticated path="/" exact component={Games} {...authProps} />
+              <MatchAuthenticated path="/games" exact component={Games} {...authProps} />
+              <RedirectUnauthenticated path="/login" exact component={Login} {...authProps} />
+              <RedirectUnauthenticated path="/signup" exact component={Signup} {...authProps} />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </Container>
       </Router>
-    );
+    )
   }
 }
 
@@ -73,6 +65,5 @@ export default connect(
   state => ({
     isAuthenticating: state.auth.isAuthenticating,
     isAuthenticated: state.auth.isAuthenticated,
-    currentUser: state.auth.currentUser,
   }), { logout, authenticate, authenticationFailure }
 )(App);
