@@ -39,17 +39,9 @@ class Navbar extends Component {
     const { isAuthenticated } = this.props
 
     return (
-      <div className="header">
+      <div className="navbar">
         {isAuthenticated ?
-          <Menu inverted>
-            <NavLink 
-              to='/create_game'
-              className={css(styles.link)}
-              activeStyle={{
-                background: 'rgba(255,255,255,.15)',
-              }}
-            ><Menu.Item>Create Game</Menu.Item></NavLink>
-
+          <Menu inverted style={{borderRadius: '0'}}>
             <NavLink 
               to='/games'
               className={css(styles.link)}
