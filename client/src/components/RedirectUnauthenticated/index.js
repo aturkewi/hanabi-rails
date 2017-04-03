@@ -22,8 +22,7 @@ const RedirectAuthenticated = ({
     path={path}
     render={(props) => {
       if (isAuthenticated) { return <Redirect to={{ pathname: '/' }} />; }
-      if (isAuthenticating) { return null; }
-      if (!isAuthenticating && !isAuthenticated) { return <Component {...props} />; }
+      if (!isAuthenticated) { return <Component {...props} />; }
       return null;
     }}
   />;
