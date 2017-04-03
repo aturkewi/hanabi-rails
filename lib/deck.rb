@@ -1,0 +1,60 @@
+class Deck
+
+  @@cards = [
+    { color: "Red", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Red", number: 5, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Yellow", number: 5, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Green", number: 5, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "Blue", number: 5, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 1, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 2, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 3, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 4, location: 0, display_color: false, display_number: false },
+    { color: "White", number: 5, location: 0, display_color: false, display_number: false }
+  ]
+
+  def self.cards
+    @@cards 
+  end
+
+end
