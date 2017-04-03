@@ -1,4 +1,4 @@
-import { reset } from 'redux-form';
+import { reset, SubmissionError } from 'redux-form';
 import ApiService from '../../../services/Api';
 
 /**
@@ -39,7 +39,10 @@ export const signup = (user, router) => {
         dispatch(setCurrentUser(user));
         dispatch(reset('signup'));
         router.history.replace('/games');
-      });
+      })
+      .catch((err) => {
+        throw new SubmissionError(err)
+      })
   }
 }
 
@@ -53,7 +56,10 @@ export const login = (user, router) => {
         dispatch(setCurrentUser(user))
         dispatch(reset('login'));
         router.history.replace('/games');
-      });
+      })
+      .catch((err) => {
+        throw new SubmissionError(err)
+      })
   }
 }
 
