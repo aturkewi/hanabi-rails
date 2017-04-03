@@ -30,7 +30,7 @@ RSpec.describe "Users API", type: :request do
 
     describe "on failure" do 
 
-      it "returns an error message" do 
+      it "returns 'Username is invalid!' if user does not exist" do 
         user = build(:user)
         params = {
           user: {
@@ -46,8 +46,27 @@ RSpec.describe "Users API", type: :request do
         body = JSON.parse(response.body)
       
         expect(response.status).to eq(500)
-        expect(body['errors'][0]['message']).to eq('Incorrect username or password')
+        expect(body['errors']['username'][0]).to eq('Username is invalid!')
       end 
+
+      it "returns 'Password is invalid!' if password does not mathc user" do 
+        user = create(:user)
+        params = {
+          user: {
+            username: user.username,
+            password: 'bananas'
+          }
+        }
+
+        post '/api/auth',
+          params: params.to_json,
+          headers: { 'Content-Type': 'application/json' }
+
+        body = JSON.parse(response.body)
+      
+        expect(response.status).to eq(500)
+        expect(body['errors']['password'][0]).to eq('Password is invalid!')
+      end
     end
   end
 
