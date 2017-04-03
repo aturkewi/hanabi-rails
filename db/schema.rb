@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403015846) do
+ActiveRecord::Schema.define(version: 20170403022257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "game_cards", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "hand_id"
+    t.integer  "location"
+    t.boolean  "display_color",  default: false
+    t.boolean  "display_number", default: false
+    t.string   "color"
+    t.integer  "number"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["game_id"], name: "index_game_cards_on_game_id", using: :btree
+    t.index ["hand_id"], name: "index_game_cards_on_hand_id", using: :btree
+  end
 
   create_table "games", force: :cascade do |t|
     t.string   "title",      null: false
@@ -40,6 +54,8 @@ ActiveRecord::Schema.define(version: 20170403015846) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "game_cards", "games"
+  add_foreign_key "game_cards", "hands"
   add_foreign_key "hands", "games"
   add_foreign_key "hands", "users"
 end
