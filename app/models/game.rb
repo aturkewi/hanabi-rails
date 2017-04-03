@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
-  has_many :hands 
+  has_many :hands, dependent: :destroy
   has_many :users, through: :hands
-  has_many :game_cards
+  has_many :game_cards, dependent: :destroy
 
   validates :title, presence: true
   validates :title, uniqueness: true
@@ -10,8 +10,8 @@ class Game < ApplicationRecord
 
   protected
 
-    def create_deck 
-      Deck.cards.each { |card| self.game_cards.create(card) }
-    end
-  
+  def create_deck 
+    Deck.cards.each { |card| self.game_cards.create(card) }
+  end
+
 end
