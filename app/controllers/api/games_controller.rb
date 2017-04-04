@@ -2,7 +2,8 @@ class Api::GamesController < ApplicationController
   before_action :authenticate_token!
 
   def index 
-
+    @games = Game.where(status: [:setup, :active])
+    render 'games/index.json.jbuilder'
   end 
 
   def create
