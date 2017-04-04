@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     post '/auth/refresh', to: "auth#refresh"
 
     # /api/games
-    resources :games, only: [:index, :show, :create]
+    resources :games, only: [:index, :create]
+    post '/games/:id/join', to: "games#join"
   end
 
 end

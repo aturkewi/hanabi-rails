@@ -18,7 +18,7 @@ class Api::GamesController < ApplicationController
     end
   end
 
-  def show 
+  def join 
 
   end
 

@@ -27,7 +27,7 @@ RSpec.describe "Games API", type: :request do
       responses << response 
       response_bodies << JSON.parse(response.body)
 
-      get "/api/games/#{game.id}", headers: @tokenless_headers
+      post "/api/games/#{game.id}/join", headers: @tokenless_headers
       responses << response 
       response_bodies << JSON.parse(response.body)
     
