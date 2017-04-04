@@ -21,14 +21,14 @@ class ApplicationController < ActionController::API
         if !current_user || !decoded || errors.length > 0
           render json: { 
             errors: errors
-          }, status: 500
+          }, status: 403
         end
       else 
         render json: { 
             errors: [ 
               { message:  "You must include a JWT Token!"  }
             ]
-          }, status: 500
+          }, status: 403
       end
     end 
 
