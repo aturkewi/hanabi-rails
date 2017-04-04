@@ -26,7 +26,7 @@ RSpec.describe "Games API", type: :request do
       get "/api/games", headers: @tokenless_headers
       responses << response 
       response_bodies << JSON.parse(response.body)
-      
+
       get "/api/games/#{game.id}", headers: @tokenless_headers
       responses << response 
       response_bodies << JSON.parse(response.body)
@@ -37,9 +37,7 @@ RSpec.describe "Games API", type: :request do
     
   describe 'POST /games' do 
 
-    
-
-    describe 'success' do 
+    describe 'successful creation' do 
 
       it 'returns the newly created game' do     
         params = { game: { title: "Test Game" } }
@@ -50,7 +48,8 @@ RSpec.describe "Games API", type: :request do
         expect(response).to have_http_status(200)
         expect(body).to match({
           "id" => be_kind_of(Integer),
-          "title" => match(/Test Game/)
+          "title" => match(/Test Game/),
+          "status" => match(/setup/)
         })
       end
     end 
@@ -67,6 +66,30 @@ RSpec.describe "Games API", type: :request do
         expect(response).to have_http_status(500)
         expect(body["errors"]).to eq({ "title" => ["has already been taken"] })
       end 
+    end
+  end
+
+  describe 'GET /games' do 
+
+    it 'returns a list of all games that have a status of setup or active' do  
+      create(:game)
+      create(:game, title: "game 2", status: 1)   
+      get '/api/games', headers: @token_headers
+      body = JSON.parse(response.body)
+
+      expect(response.content_type).to eq("application/json")
+      expect(response).to have_http_status(200)
+      expect(body["games"].count).to eq(2)
+      expect(body["games"][0]).to match({
+        "id" => be_kind_of(Integer),
+        "title" => match(/game_test/),
+        "status" => match(/setup/)
+      })
+      expect(body["games"][1]).to match({
+        "id" => be_kind_of(Integer),
+        "title" => match(/game 2/),
+        "status" => match(/active/)
+      })
     end
   end
 end
