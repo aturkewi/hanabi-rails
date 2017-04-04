@@ -1,1 +1,1 @@
-json.(@game, :id, :title) 
+json.(@game, :id, :title, :status) 
