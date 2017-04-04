@@ -105,7 +105,7 @@ RSpec.describe "Users API", type: :request do
 
         body = JSON.parse(response.body)
       
-        expect(response.status).to eq(500)
+        expect(response.status).to eq(403)
         expect(body['errors'][0]['message']).to eq('A valid token must be passed!')
       end 
     end
