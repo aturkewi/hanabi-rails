@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users API", type: :request do
+RSpec.describe "Auth API", type: :request do
 
   describe "POST /auth" do 
 
