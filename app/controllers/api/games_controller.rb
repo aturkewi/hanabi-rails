@@ -1,6 +1,10 @@
 class Api::GamesController < ApplicationController
   before_action :authenticate_token!
 
+  def index 
+
+  end 
+
   def create
     @game = Game.new(game_params)
     if @game.save 
@@ -11,6 +15,10 @@ class Api::GamesController < ApplicationController
         errors: @game.errors
       }, status: 500
     end
+  end
+
+  def show 
+
   end
 
   private 
