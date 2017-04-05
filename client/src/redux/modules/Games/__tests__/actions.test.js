@@ -97,8 +97,8 @@ describe('Auth Module async actions', () => {
 
       return store.dispatch(actions.fetchGames())
         .then(() => expect(store.getActions()).toEqual([
-          { type: 'REQUESTING_GAMES' },
-          { type: 'SET_GAMES' }
+          { type: 'FETCHING_GAMES' },
+          { type: 'SET_GAMES', games }
         ]));
     })
   })

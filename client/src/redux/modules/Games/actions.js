@@ -31,19 +31,11 @@ export const addGame = game => {
  * @param {Auth} async actions
  */
 
-export const signup = (user, router) => {
+export const fetchGames = () => {
   return dispatch => {
-    dispatch(authenticationRequest());
-    return ApiService.post('/users', user)
-      .then(response => {
-        const { user, token } = response;
-        localStorage.setItem('token', token);
-        dispatch(setCurrentUser(user));
-        dispatch(reset('signup'));
-        router.history.replace('/games');
-      })
-      .catch((err) => {
-        throw new SubmissionError(err)
-      })
+    dispatch(fetchingGames());
+    return ApiService.get('/games')
+      .then(games => dispatch(setGames(games)))
+      .catch((err) => console.log(err));
   }
 }
