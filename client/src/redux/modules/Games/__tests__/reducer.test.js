@@ -8,6 +8,18 @@ describe('Auth Module Reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   })
 
+  it('handles REQUESTING_GAMES', () => {
+    expect(reducer(undefined, {
+      type: 'REQUESTING_GAMES'
+    })).toEqual({ status: 'Requesting games' });
+  }) 
+
+  it('handles FETCH_GAMES_FAILURE', () => {
+    expect(reducer(undefined, {
+      type: 'FETCH_GAMES_FAILURE'
+    })).toEqual({ status: 'Failure fetching games' });
+  }) 
+
   it('handles SET_GAMES', () => {
     const games = [{ title: 'game 1' }, { title: 'game 2' }];
     
