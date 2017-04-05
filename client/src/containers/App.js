@@ -50,8 +50,8 @@ class App extends Component {
             <Navbar isAuthenticated={isAuthenticated} logout={logout} />
             <Switch>
               <MatchAuthenticated path="/" exact component={Games} {...authProps} />
-              <MatchAuthenticated path="/games" exact component={Games} {...authProps} />
               <MatchAuthenticated path="/games/:slug" exact component={GameDashboard} {...authProps} />
+              <MatchAuthenticated path="/games" exact component={Games} {...authProps} />
               <RedirectUnauthenticated path="/login" exact component={Login} {...authProps} />
               <RedirectUnauthenticated path="/signup" exact component={Signup} {...authProps} />
               <Route component={NotFound} />
