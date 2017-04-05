@@ -29,7 +29,7 @@ class App extends Component {
   props: Props
 
   componentDidMount() {
-    const token: string = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       console.log('Fetching a new token!');
       this.props.authenticate();
