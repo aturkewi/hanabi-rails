@@ -1,59 +1,38 @@
+// @flow
 import React, { Component } from 'react';
-import ActionCable from 'actioncable';
-const token = localStorage.token
-const App = {};
-App.cable = ActionCable.createConsumer(`ws://localhost:3001/cable?token=${token}`);
+import { connect } from 'react-redux';
+import { fetchGames } from '../../redux/modules/Games/actions';
 
-class Games extends Component { 
+type game = {
+  title: string
+}
 
-  constructor() {
-    super()
-    this.state = {
-      games: [],
-    }
-  }
+type Props = {
+  games: Array<game>,
+  fetchGames: () => void,
+}
+
+class Games extends Component {
+
+  props: Props 
 
   componentDidMount() {
-    this.setupSubscription()
-  }
-
-  setupSubscription() {
-    App.games = App.cable.subscriptions.create('GameChannel', {
-
-      connected() { 
-        setTimeout(() => this.perform('follow', { game_id: 1 }), 1000);
-      },
-
-      received(data) {
-        this.updateGamesList(data);
-      },
-
-      disconnected() { 
-        console.log("disconnected: action cable" )
-      },
-      updateGametList: this.updateGamesList.bind(this)
-
-    })
-  }
-
-  updateGamesList(data) {
-    debugger;
-    console.log(data);
-  }
-
-  componentWillUnmount() {
-    this.subscription && App.cable.subscriptions.remove(this.subscription)
+    this.props.fetchGames();
   }
 
   render() {
-    const games = this.state.games.map(game => <h1>{game.title}</h1>);
-    return(
+    console.log(this.props.games);
+
+    return (
       <div>
-        <h1>Games Channel</h1>
-        {games}
+        <h1>Games</h1>
       </div>
-    )
+    );
   }
 }
 
-export default Games;
+export default connect(
+  state => ({
+    games: state.games
+  }), { fetchGames }
+)(Games);
