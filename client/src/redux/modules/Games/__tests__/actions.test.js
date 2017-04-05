@@ -1,5 +1,29 @@
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
 import * as actions from '../actions';
 
+global.window = document.defaultView;
+window.localStorage = (() => {
+  let store = {};
+  return {
+    getItem(key) {
+      return store[key]
+    },
+    setItem(key, value) {
+      store[key] = JSON.stringify(value.toString())
+    },
+    removeItem(key) {
+      store[key] = null;
+    },
+    clear() {
+      store = {}
+    },
+  };
+})()
+
+const middlewares = [ thunk ]; 
+const mockStore = configureMockStore(middlewares);
 
 describe('Auth Module action creators', () => {
 
@@ -27,4 +51,35 @@ describe('Auth Module action creators', () => {
     })
   })
   
+})
+
+describe('Auth Module async actions', () => {
+  let initialState;
+  let response;
+  let user;
+
+  beforeEach(() => {
+    initialState = {
+      auth: {
+        isAuthenticated: false,
+        isAuthenticating: true, 
+        currentUser: {}
+      }
+    };
+    user = { 
+      id: 1,
+      first_name: 'Bill',
+      last_name: 'Murray',
+      email: 'bill@gmail.com',
+    }
+    response = {
+      user,
+      token: 'abc.123.def.456',
+    }
+  })
+
+  afterEach(() => {
+    nock.cleanAll()
+  })
+
 })
