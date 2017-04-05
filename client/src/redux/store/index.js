@@ -6,7 +6,7 @@ import {
 import thunk from 'redux-thunk';
 import { reducer as form } from 'redux-form';
 import auth from '../modules/Auth/reducer';
-import games form '../modules/Games/reducer';
+import games from '../modules/Games/reducer';
 
 const reducers = combineReducers({
   form,
