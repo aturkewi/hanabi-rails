@@ -73,13 +73,20 @@ describe('Auth Module action creators', () => {
 
 describe('Auth Module async actions', () => {
   let initialState;
-  let games
+  let games;
+  let response;
 
   beforeEach(() => {
     initialState = {
       games: []
     };
-    games = [{ title: 'game 1' }, { title: 'game 2' }];
+    games: [
+      { title: 'game 1' }, 
+      { title: 'game 2' }
+    ];
+    response = {
+      games
+    };
   })
 
   afterEach(() => {
@@ -91,7 +98,7 @@ describe('Auth Module async actions', () => {
     it('creates actions for REQUESTING_GAMES and SET_GAMES while fetching', () => {
       nock('http://localhost:3001/api')
         .get('/games')
-        .reply(200, games)
+        .reply(200, response)
 
       const store = mockStore(initialState);
 

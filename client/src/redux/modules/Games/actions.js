@@ -34,7 +34,7 @@ export const fetchGames = () => {
   return dispatch => {
     dispatch(fetchingGames());
     return ApiService.get('/games')
-      .then(games => dispatch(setGames(games)))
+      .then(response => dispatch(setGames(response.games)))
       .catch((err) => console.log(err));
   }
 }
