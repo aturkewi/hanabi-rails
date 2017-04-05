@@ -8,10 +8,10 @@ describe('Auth Module Reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   })
 
-  it('handles REQUESTING_GAMES', () => {
+  it('handles FETCHING_GAMES', () => {
     expect(reducer(undefined, {
-      type: 'REQUESTING_GAMES'
-    })).toEqual({ status: 'Requesting games' });
+      type: 'FETCHING_GAMES'
+    })).toEqual({ status: 'Fetching games' });
   }) 
 
   it('handles FETCH_GAMES_FAILURE', () => {

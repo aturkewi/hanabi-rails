@@ -27,6 +27,24 @@ const mockStore = configureMockStore(middlewares);
 
 describe('Auth Module action creators', () => {
 
+  describe('fetchingGames()', () => {
+    
+    it('creates an action to pass "FETCHING_GAMES" to the reducer', () => {
+      expect(actions.fetchingGames()).toEqual({ 
+        type: 'FETCHING_GAMES'
+      });
+    })
+  })
+
+  describe('fetchingGamesFailure()', () => {
+    
+    it('creates an action to pass "FETCHING_GAMES_FAILURE" to the reducer', () => {
+      expect(actions.fetchingGamesFailure()).toEqual({ 
+        type: 'FETCHING_GAMES_FAILURE'
+      });
+    })
+  })
+
   describe('setGames(games)', () => {
 
     it('creates an action to pass an array of games to replace the games reducer state', () => {
@@ -55,31 +73,34 @@ describe('Auth Module action creators', () => {
 
 describe('Auth Module async actions', () => {
   let initialState;
-  let response;
-  let user;
+  let games
 
   beforeEach(() => {
     initialState = {
-      auth: {
-        isAuthenticated: false,
-        isAuthenticating: true, 
-        currentUser: {}
-      }
+      games: []
     };
-    user = { 
-      id: 1,
-      first_name: 'Bill',
-      last_name: 'Murray',
-      email: 'bill@gmail.com',
-    }
-    response = {
-      user,
-      token: 'abc.123.def.456',
-    }
+    games = [{ title: 'game 1' }, { title: 'game 2' }];
   })
 
   afterEach(() => {
     nock.cleanAll()
+  })
+
+  describe('fetchGames()', () => {
+
+    it('creates actions for REQUESTING_GAMES and SET_GAMES while fetching', () => {
+      nock('http://localhost:3001/api')
+        .get('/games')
+        .reply(200, games)
+
+      const store = mockStore(initialState);
+
+      return store.dispatch(actions.fetchGames())
+        .then(() => expect(store.getActions()).toEqual([
+          { type: 'REQUESTING_GAMES' },
+          { type: 'SET_GAMES' }
+        ]));
+    })
   })
 
 })

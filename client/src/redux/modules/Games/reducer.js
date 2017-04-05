@@ -2,8 +2,8 @@ export default (state = [], action) => {
 
   switch(action.type) {
 
-    case 'REQUESTING_GAMES':
-      return { status: 'Requesting games' };
+    case 'FETCHING_GAMES':
+      return { status: 'Fetching games' };
 
     case 'FETCH_GAMES_FAILURE':
       return { status: 'Failure fetching games' };
