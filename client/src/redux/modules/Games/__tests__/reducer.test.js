@@ -1,6 +1,9 @@
 import reducer from '../reducer';
 
-const initialState = [];
+const initialState = {
+  list: [],
+  status: ''
+}
 
 describe('Auth Module Reducer', () => {
 
@@ -11,13 +14,13 @@ describe('Auth Module Reducer', () => {
   it('handles FETCHING_GAMES', () => {
     expect(reducer(undefined, {
       type: 'FETCHING_GAMES'
-    })).toEqual({ status: 'Fetching games' });
+    })).toEqual({ list: [], status: 'Fetching games' });
   }) 
 
   it('handles FETCH_GAMES_FAILURE', () => {
     expect(reducer(undefined, {
       type: 'FETCH_GAMES_FAILURE'
-    })).toEqual({ status: 'Failure fetching games' });
+    })).toEqual({ list: [], status: 'Failure fetching games' });
   }) 
 
   it('handles SET_GAMES', () => {
@@ -25,20 +28,32 @@ describe('Auth Module Reducer', () => {
     
     expect(reducer(initialState, { 
       type: 'SET_GAMES', games
-    })).toEqual(games);
+    })).toEqual({
+      list: games,
+      status: ''
+    });
   })
 
   it('handles ADD_GAME', () => {
-    const games = [{ title: 'game 1' }, { title: 'game 2' }];
+    const state = {
+      list: [
+        { title: 'game 1' }, 
+        { title: 'game 2' },
+      ],
+      status: ''
+    };
     const game = { title: 'game 3' };
     
-    expect(reducer(games, {
+    expect(reducer(state, {
       type: 'ADD_GAME',
       game
-    })).toEqual([
-      { title: 'game 1' }, 
-      { title: 'game 2' },
-      { title: 'game 3' }
-    ]);
+    })).toEqual({
+      list: [
+        { title: 'game 1' }, 
+        { title: 'game 2' },
+        { title: 'game 3' }
+      ],
+      status: '',
+    });
   })
 })

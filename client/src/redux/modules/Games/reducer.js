@@ -1,21 +1,35 @@
-export default (state = [], action) => {
+const initialState = {
+  list: [],
+  status: ''
+}
+
+export default (state = initialState, action) => {
 
   switch(action.type) {
 
     case 'FETCHING_GAMES':
-      return { status: 'Fetching games' };
+      return { 
+        ...state,
+        status: 'Fetching games' 
+      };
 
     case 'FETCH_GAMES_FAILURE':
-      return { status: 'Failure fetching games' };
+      return { 
+        ...state,
+        status: 'Failure fetching games'
+      };
 
     case 'SET_GAMES':
-      return action.games;
+      return {
+        ...state, 
+        list: action.games
+      };
 
     case 'ADD_GAME':
-      return [
-        ...state, 
-        action.game
-      ];
+      return {
+        ...state,
+        list: state.list.concat(action.game)
+      };
 
     default: 
       return state;
