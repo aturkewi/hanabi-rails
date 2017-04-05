@@ -4,7 +4,7 @@ const API = process.env.REACT_APP_API_URL;
 
 export const headers = () => {
   
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = localStorage.getItem('token');
 
   return {
     'Accept': 'application/json',
