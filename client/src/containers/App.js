@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import MatchAuthenticated from '../components/MatchAuthenticated';
 import RedirectUnauthenticated from '../components/RedirectUnauthenticated';
 import Games from '../views/Games';
+import GameDashboard from '../views/GameDashboard';
 import Signup from '../views/Signup';
 import Login from '../views/Login';
 import NotFound from '../components/NotFound';
@@ -50,6 +51,7 @@ class App extends Component {
             <Switch>
               <MatchAuthenticated path="/" exact component={Games} {...authProps} />
               <MatchAuthenticated path="/games" exact component={Games} {...authProps} />
+              <MatchAuthenticated path="/games/:slug" exact component={GameDashboard} {...authProps} />
               <RedirectUnauthenticated path="/login" exact component={Login} {...authProps} />
               <RedirectUnauthenticated path="/signup" exact component={Signup} {...authProps} />
               <Route component={NotFound} />
