@@ -1,1 +1,0 @@
-json.(@game, :id, :title, :status) 
