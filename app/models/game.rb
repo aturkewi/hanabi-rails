@@ -9,6 +9,7 @@ class Game < ApplicationRecord
   validates :title, uniqueness: true
 
   after_create :create_deck 
+  after_create_commit { GameBroadcastJob.perform_later self }
 
   protected
 
