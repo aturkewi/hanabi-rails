@@ -1,47 +1,96 @@
-// @flow
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { fetchGames } from '../../redux/modules/Games/actions';
-import HelpersService from '../../services/Helpers';
+import ActionCable from 'actioncable';
+const token = localStorage.token;
+let App = {};
+App.cable = ActionCable.createConsumer(`ws://localhost:3001/cable?token=${token}`);
+App.game = App.cable.subscriptions.create('GameChannel', {
 
-type game = {
-  title: string
-}
+  connected() { 
+    setTimeout(() => this.perform('get_games', null), 1000)
+    // console.log('connected: action cable')
+  },
+  
+  received(data) {
+    console.log('I have received the data')
+    console.log(data)
+  },
 
-type Props = {
-  gamesList: Array<game>,
-  fetchGames: () => void,
-}
+  speak(title) {
+    return this.perform('speak', { title: title });
+  },
 
-class Games extends Component {
+  getGames() {
+    return this.perform('get_games', null);
+  },
 
-  props: Props 
+  disconnected() { 
+    console.log("disconnected: action cable" )
+  }
 
-  componentDidMount() {
-    this.props.fetchGames();
+});
+
+class Game extends Component {
+
+  constructor() {
+    super()
+    this.state = {
+      inputValue: ''
+    }
+  }
+
+  handleOnSubmit = (event) => {
+    event.preventDefault()
+    this.props.createGame(this.state.inputValue)
+    this.setState({
+      inputValue: ''
+    })
+  }
+
+  handleOnChange(event) {
+    this.setState({
+      inputValue: event.target.value
+    })
   }
 
   render() {
-    const renderGames = this.props.gamesList.map(game => 
-      <NavLink key={game.id} to={`/games/${HelpersService.slugify(game.title)}`}>
-        <div>
-          <h2>{game.title}</h2>
-        </div>
-      </NavLink>
-    );
-
     return (
+      <form onSubmit={this.handleOnSubmit}> 
+        <input onChange={(event) => this.handleOnChange(event)} value={this.state.inputValue} />
+      </form>
+    )
+      
+  }
+
+}
+  
+
+class Games extends Component { 
+
+  // componentWillMount() {
+
+  //   if (typeof App !== 'undefined') {
+      
+  //   }
+  // }
+
+  // componentWillUnmount() {
+  //   App.cable.subscriptions.remove(this.subscription)
+  // }
+
+  createGame = (title) => App.game.speak(title);
+  
+  getGames = () => App.game.getGames();
+
+  render() {
+    return(
       <div>
-        <h1>Games</h1>
-        {renderGames}
+        <button onClick={this.getGames}>Get Games</button>
+        <h1>Games Channel</h1>
+         <Game createGame={this.createGame} />
       </div>
-    );
+    )
   }
 }
 
-export default connect(
-  state => ({
-    gamesList: state.games.list
-  }), { fetchGames }
-)(Games);
+export default Games;
+
