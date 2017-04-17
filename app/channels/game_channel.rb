@@ -1,7 +1,7 @@
 class GameChannel < ApplicationCable::Channel
 
   def subscribed
-    stream_from "game_channel_for_current_user_id#{current_user.id}"
+    stream_from "game_channel_#{params[:game_id]}"
   end
 
   def unsubscribed
@@ -11,15 +11,15 @@ class GameChannel < ApplicationCable::Channel
     Game.create!(title: data['title'])
   end
 
-  def get_games 
-    games = Game.all
-    ActionCable.server.broadcast('game_channel', games: render_games(games))
+  def get_game
+    game = Game.find_by(id: params[:game_id])
+    ActionCable.server.broadcast("game_channel_#{params[:game_id]}", game: render_game(game))
   end
 
   private 
 
-    def render_games(games)
-      ApplicationController.renderer.render(partial: "games/index.json.jbuilder", locals: { games: games })
+    def render_game(game)
+      ApplicationController.renderer.render(partial: "games/game.json.jbuilder", locals: { game: game })
     end
 
   

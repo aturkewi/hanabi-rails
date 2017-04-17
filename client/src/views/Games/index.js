@@ -1,33 +1,5 @@
 import React, { Component } from 'react';
-import ActionCable from 'actioncable';
-const token = localStorage.token;
-let App = {};
-App.cable = ActionCable.createConsumer(`ws://localhost:3001/cable?token=${token}`);
-App.game = App.cable.subscriptions.create('GameChannel', {
-
-  connected() { 
-    setTimeout(() => this.perform('get_games', null), 1000)
-    // console.log('connected: action cable')
-  },
-  
-  received(data) {
-    console.log('I have received the data')
-    console.log(data)
-  },
-
-  speak(title) {
-    return this.perform('speak', { title: title });
-  },
-
-  getGames() {
-    return this.perform('get_games', null);
-  },
-
-  disconnected() { 
-    console.log("disconnected: action cable" )
-  }
-
-});
+import cable from '../../services/Cable';
 
 class Game extends Component {
 
@@ -37,7 +9,7 @@ class Game extends Component {
       inputValue: ''
     }
   }
-
+  
   handleOnSubmit = (event) => {
     event.preventDefault()
     this.props.createGame(this.state.inputValue)
@@ -65,21 +37,42 @@ class Game extends Component {
   
 
 class Games extends Component { 
-
-  // componentWillMount() {
-
-  //   if (typeof App !== 'undefined') {
-      
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   App.cable.subscriptions.remove(this.subscription)
-  // }
-
-  createGame = (title) => App.game.speak(title);
   
-  getGames = () => App.game.getGames();
+  componentDidMount() {
+    this.subscription = cable.subscriptions.create({ channel: 'GameChannel', game_id: 1 }, {
+
+      connected() { 
+        console.log('connected: action cable')
+      },
+      
+      received(data) {
+        console.log('I have received the data')
+        console.log(JSON.parse(data.game))
+      },
+
+      speak(title) {
+        return this.perform('speak', { title: title });
+      },
+
+      getGame() {
+        return this.perform('get_game', null);
+      },
+
+      disconnected() { 
+        console.log("disconnected: action cable" )
+      }
+    })
+    
+    setTimeout(() => {
+      this.subscription.getGame();
+    }, 1000) 
+  }
+  
+  componentWillUnmount() {
+    this.subscription && cable.subscriptions.remove(this.subscription)
+  }
+  
+  createGame = (title) => this.subscription.speak(title);
 
   render() {
     return(
