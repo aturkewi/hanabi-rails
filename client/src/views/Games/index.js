@@ -7,11 +7,13 @@ class Games extends Component {
     super(props)
 
     this.state = {
-      inputValue: ''
+      inputValue: '',
+      games: []
     }
   }
   
   componentDidMount() {
+    var self = this;
     this.subscription = cable.subscriptions.create('GameChannel', {
 
       connected() { 
@@ -21,7 +23,10 @@ class Games extends Component {
       received(data) {
         console.log('I have received the data')
         if (data.games) {
-          console.log(JSON.parse(data.games))
+          var games = JSON.parse(data.games).games
+          self.setState({
+            games
+          })
         } else if (data.game) {
           console.log(JSON.parse(data.game))
         } else if (data.errors) {
@@ -67,13 +72,15 @@ class Games extends Component {
 
   render() {
 
+    var renderGames = this.state.games.map(game => <div key={game.id}>{game.title}</div>)
+
     return(
       <div>
-        <button onClick={this.getGames}>Get Games</button>
         <h1>Games Channel</h1>
         <form onSubmit={this.handleOnSubmit}> 
           <input onChange={(event) => this.handleOnChange(event)} value={this.state.inputValue} />
         </form>
+        {renderGames}
       </div>
     )
   }
