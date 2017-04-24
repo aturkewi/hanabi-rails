@@ -2,11 +2,12 @@ class GameBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(game)
-    ActionCable.server.broadcast('game_channel', game: render_game(game))
+    games = Game.all
+    ActionCable.server.broadcast('game_channel', games: render_games(games))
   end
 
   private
-    def render_game(game)
-      ApplicationController.renderer.render(partial: "games/game.json.jbuilder", locals: { game: game })
+    def render_games(games)
+      ApplicationController.renderer.render(partial: "games/games.json.jbuilder", locals: { games: games })
     end
 end
