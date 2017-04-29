@@ -19,8 +19,8 @@ class GameChannel < ApplicationCable::Channel
     ActionCable.server.broadcast('game_channel', games: render_games(games))
   end
 
-  def get_game 
-    game = Game.find_by(id: params[:id])
+  def get_game(params)
+    game = Game.find_by(id: params['id'])
     ActionCable.server.broadcast('game_channel', game: render_game(game))
   end
 
