@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cable from '../../services/Cable';
+import { Link } from 'react-router-dom'
 
 class Games extends Component { 
 
@@ -72,7 +73,7 @@ class Games extends Component {
 
   render() {
 
-    var renderGames = this.state.games.map(game => <div key={game.id}>{game.title}</div>)
+    var renderGames = this.state.games.map(game => <div key={game.id}><Link to={`/games/${game.id}`}>{game.title}</Link></div>)
 
     return(
       <div>
