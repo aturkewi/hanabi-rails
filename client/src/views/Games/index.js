@@ -14,7 +14,7 @@ class Games extends Component {
   
   componentDidMount() {
     var self = this;
-    this.subscription = cable.subscriptions.create('GameChannel', {
+    this.subscription = cable.subscriptions.create('GamesChannel', {
 
       connected() { 
         console.log('connected: action cable')
@@ -34,8 +34,8 @@ class Games extends Component {
         }
       },
 
-      speak(title) {
-        return this.perform('speak', { title: title });
+      createGame(title) {
+        return this.perform('create_game', { title: title });
       },
 
       getGames() {
@@ -58,7 +58,7 @@ class Games extends Component {
 
   handleOnSubmit = (event) => {
     event.preventDefault()
-    this.subscription.speak(this.state.inputValue);
+    this.subscription.createGame(this.state.inputValue);
     this.setState({
       inputValue: ''
     })
