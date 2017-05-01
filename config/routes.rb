@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     # /api/games
     resources :games, only: [:index, :create]
     post '/games/:id/join', to: "games#join"
+
+    mount ActionCable.server => '/cable'
   end
 
 end

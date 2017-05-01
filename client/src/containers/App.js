@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import MatchAuthenticated from '../components/MatchAuthenticated';
 import RedirectUnauthenticated from '../components/RedirectUnauthenticated';
 import Games from '../views/Games';
+import GameDashboard from '../views/GameDashboard';
 import Signup from '../views/Signup';
 import Login from '../views/Login';
 import NotFound from '../components/NotFound';
@@ -29,7 +30,7 @@ class App extends Component {
   props: Props
 
   componentDidMount() {
-    const token: string = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
       console.log('Fetching a new token!');
       this.props.authenticate();
@@ -49,6 +50,7 @@ class App extends Component {
             <Navbar isAuthenticated={isAuthenticated} logout={logout} />
             <Switch>
               <MatchAuthenticated path="/" exact component={Games} {...authProps} />
+              <MatchAuthenticated path="/games/:slug" exact component={GameDashboard} {...authProps} />
               <MatchAuthenticated path="/games" exact component={Games} {...authProps} />
               <RedirectUnauthenticated path="/login" exact component={Login} {...authProps} />
               <RedirectUnauthenticated path="/signup" exact component={Signup} {...authProps} />

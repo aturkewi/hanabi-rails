@@ -35,7 +35,7 @@ export const signup = (user, router) => {
     return ApiService.post('/users', user)
       .then(response => {
         const { user, token } = response;
-        localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('token', token);
         dispatch(setCurrentUser(user));
         dispatch(reset('signup'));
         router.history.replace('/games');
@@ -52,7 +52,7 @@ export const login = (user, router) => {
     return ApiService.post('/auth', user)
       .then(response => {
         const { user, token } = response;
-        localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('token', token);
         dispatch(setCurrentUser(user))
         dispatch(reset('login'));
         router.history.replace('/games');
@@ -69,10 +69,10 @@ export const authenticate = () => {
     return ApiService.post('/auth/refresh')
       .then(response => {
         const { user, token } = response;
-        localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('token', token);
         dispatch(setCurrentUser(user));
       })
-      .catch(() => {
+      .catch(err => {
         localStorage.removeItem('token');
         window.location = '/login';
       });
