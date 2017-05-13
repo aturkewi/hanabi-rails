@@ -6,7 +6,20 @@ class GameDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: {}
+      game: {
+        title: '',
+        game_cards: [],
+        hands: [
+          {
+            user: {
+              id: '',
+              username: ''
+            },
+            game_cards: []
+          }
+        ],
+        status: 'setup'
+      }
     }
   }
 
@@ -49,11 +62,15 @@ class GameDashboard extends Component {
   render() {
     return (
       <div>
-        <h1>GameDashboard</h1> 
+        <h1>GameDashboard</h1>
+        <h2>Current Players</h2>
+        <ul>
+          {this.state.game.hands.map(h => <li key={h.user.id}>{h.user.username}</li>)}
+        </ul>
         <div>
-          <h2>{this.game.title}</h2>
+          <h2>{this.state.game.title}</h2>
           <ul>
-            {this.state.game.game_cards.map(c => <li key={c.id}>c.id</li>)}
+            {this.state.game.game_cards.map(c => <li key={c.id}>{c.id}</li>)}
           </ul>
         </div>
       </div>
