@@ -11,6 +11,17 @@ class GameRoomChannel < ApplicationCable::Channel
     game = Game.find_by(id: params[:game_id])
     ActionCable.server.broadcast("game_room_channel_#{params[:game_id]}", game: render_game(game))
   end
+  
+  def join_game(params)
+    game_id = params['game_id']
+    game = Game.find_by(id: game_id)
+    if game.users.include?(current_user)
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['You are already in this game'])
+    else
+      game.users << current_user
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
+    end
+  end
 
   private 
 
