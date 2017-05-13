@@ -74,7 +74,7 @@ class GameDashboard extends Component {
   render() {
     return (
       <div>
-        <h1>GameDashboard</h1>
+        <h1>{this.state.game.title}</h1>
         <div>
           <h2>Current Players</h2>
           <ul>
@@ -83,9 +83,14 @@ class GameDashboard extends Component {
           <button onClick={this.handleJoin}>Join Game!</button>
         </div>
         <div>
-          <h2>{this.state.game.title}</h2>
+          { this.state.game.hands.length > 1 ? <button>Start Game</button> : ''}
+        </div>
+        <div>
           <ul>
-            {this.state.game.game_cards.map(c => <li key={c.id}>{c.id}</li>)}
+            <li>
+              Cards Left in Deck: {this.state.game.game_cards.length}
+              
+            </li>
           </ul>
         </div>
       </div>
