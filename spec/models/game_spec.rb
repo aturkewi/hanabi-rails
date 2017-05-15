@@ -1,6 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
+  
+  describe "#number_of_starting_cards" do 
+    before(:each) do 
+      @game = create(:game)
+    end
+    
+    it "returns 5 if 2-3 players" do 
+      2.times { @game.users << create(:user) }
+      
+      expect(@game.number_of_starting_cards).to equal(5)
+      @game.users << create(:user)
+      expect(@game.number_of_starting_cards).to equal(5)
+    end
+    
+    it "returns 4 if 4-5 players" do 
+      4.times { @game.users << create(:user) }
+      
+      expect(@game.number_of_starting_cards).to equal(4)
+      @game.users << create(:user)
+      expect(@game.number_of_starting_cards).to equal(4)
+    end
+  end
+
+  describe '#start_game' do
+    it 'it deals the cards to all players'
+    it 'updates the game status'
+    it 'will not run if there are more than 5 players'
+    it 'will not run if there are fewer than 2 players'
+  end
 
   describe 'validations' do 
     it 'requires a title' do 
