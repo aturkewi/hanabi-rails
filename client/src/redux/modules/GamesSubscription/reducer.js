@@ -1,22 +1,8 @@
-const initialState = {
-  creatingSubscription: false,
-  activeSubscription: false
-}
-
-export default (state = initialState, action) => {
+export default (state = {}, action) => {
   switch(action.type) {
 
-    case 'CREATING_SUBSCRIPTION':
-      return {
-        creatingSubscription: true,
-        activeSubscription: false
-      };
-
-    case 'ACTIVATE_SUBSCRIPTION': 
-      return {
-        creatingSubscription: false,
-        activeSubscription: true
-      }
+    case 'SET_SUBSCRIPTION_FUNCTIONS':
+      return action.subscriptionFunctions
     
     default: 
       return state;
