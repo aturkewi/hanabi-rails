@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import cable from '../../services/Cable';
+import createCable from '../../services/Cable';
 import { Link } from 'react-router-dom'
 
 class Games extends Component { 
@@ -14,6 +14,7 @@ class Games extends Component {
   }
   
   componentDidMount() {
+    const cable = createCable()
     var self = this;
     this.subscription = cable.subscriptions.create('GamesChannel', {
 
@@ -53,9 +54,9 @@ class Games extends Component {
     }, 1000) 
   }
   
-  componentWillUnmount() {
-    this.subscription && cable.subscriptions.remove(this.subscription);
-  }
+  // componentWillUnmount() {
+  //   this.subscription && cable.subscriptions.remove(this.subscription);
+  // }
 
   handleOnSubmit = (event) => {
     event.preventDefault()
