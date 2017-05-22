@@ -2,6 +2,22 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
   
+  describe "#deck" do
+    before(:each) do
+      @game = create(:game)
+    end
+    it 'returns all the cards in the deck' do
+      expect(@game.deck.count).to eq(50)
+    end
+    
+    it 'does not count cards not in the deck' do
+      first_game_card = @game.game_cards.first
+      first_game_card.update(location: :discarded)
+      
+      expect(@game.deck.count).to eq(49)
+    end
+  end
+  
   describe "#number_of_starting_cards" do 
     before(:each) do 
       @game = create(:game)

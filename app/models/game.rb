@@ -11,13 +11,19 @@ class Game < ApplicationRecord
 
   after_create :create_deck 
   after_commit { GameBroadcastJob.perform_later(self) }
+
+  def deck
+    self.game_cards.where(location: :deck)
+  end
+
+  # def start_game
+  #   hands.each {|hand| create_starting_hand(hand)}
+  # end
   
-  # determine number of players 
-    # -> 2-3 players = 5 cards 
-    # -> 4-5 players = 4 cards
   # -> create_starting_hand for each player 
     # for each player grab a random card from the deck that has a status of location of "deck"
     # update the card to be in the players hand and in location to be "in_hand"
+    
   def number_of_starting_cards 
     case self.users.count
     when 2, 3
@@ -29,6 +35,11 @@ class Game < ApplicationRecord
 
   protected
 
+  def create_starting_hand(hand)
+    number_of_starting_cards.times do
+      game_card = game_cards.sample
+    end
+  end
 
   def create_deck 
     Deck.cards.each { |card| self.game_cards.create(card) }
