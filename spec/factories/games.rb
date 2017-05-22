@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :game do
-    title "game_test"
+    title  { Faker::GameOfThrones.unique.character }
     status 0
   end
 end

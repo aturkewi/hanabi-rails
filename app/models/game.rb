@@ -16,9 +16,12 @@ class Game < ApplicationRecord
     self.game_cards.where(location: :deck)
   end
 
-  # def start_game
-  #   hands.each {|hand| create_starting_hand(hand)}
-  # end
+  def start_game
+    if self.hands.count >= 2 && self.hands.count <= 5
+      self.hands.each { |hand| create_starting_hand(hand) }
+      self.update(status: :active)
+    end
+  end
   
   # -> create_starting_hand for each player 
     # for each player grab a random card from the deck that has a status of location of "deck"
@@ -37,7 +40,7 @@ class Game < ApplicationRecord
 
   def create_starting_hand(hand)
     number_of_starting_cards.times do
-      game_card = game_cards.sample
+      hand.add_card(self.deck.sample)
     end
   end
 

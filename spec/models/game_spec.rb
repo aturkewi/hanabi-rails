@@ -41,10 +41,35 @@ RSpec.describe Game, type: :model do
   end
 
   describe '#start_game' do
-    it 'it deals the cards to all players'
-    it 'updates the game status'
-    it 'will not run if there are more than 5 players'
-    it 'will not run if there are fewer than 2 players'
+    before(:each) do
+      @game = create(:game)
+      5.times { @game.users << create(:user) }
+    end
+    
+    it 'it deals the cards to all players' do
+      @game.start_game
+      
+      expect(@game.hands.count).to eq(5)
+      @game.hands.each do | hand |
+        expect(hand.game_cards.count).to eq(4)
+      end
+    end
+    
+    it 'removes from the from deck' do
+      expect{ @game.start_game }.to change{ @game.deck.count }.by(-4*5)
+    end
+    
+    it 'updates the game status' do
+      @game.start_game
+      
+      expect(@game.status).to eq("active")
+    end
+    
+    it 'will not run if there are fewer than 2 players' do 
+      game = create(:game)
+      game.users << create(:user)
+      expect(game.start_game).to be_falsey
+    end
   end
 
   describe 'validations' do 
@@ -56,8 +81,8 @@ RSpec.describe Game, type: :model do
     end 
 
     it 'requires that a title is unique' do 
-      create(:game)
-      game = build(:game)
+      first_game = create(:game)
+      game = build(:game, title: first_game.title)
 
       expect(game.valid?).to equal(false)
       expect(game.errors.full_messages).to eq(["Title has already been taken"])
