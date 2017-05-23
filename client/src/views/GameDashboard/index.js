@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import cable from '../../services/Cable';
+import createCable from '../../services/Cable';
 
 class GameDashboard extends Component {
 
@@ -32,6 +32,7 @@ class GameDashboard extends Component {
   }
 
   componentDidMount() {
+    const cable = createCable()
     var self = this;
     const gameId = self.props.match.params.gameId
     this.subscription = cable.subscriptions.create({channel: 'GameRoomChannel', game_id: gameId}, {
