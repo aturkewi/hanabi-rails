@@ -24,11 +24,13 @@ class GameRoomChannel < ApplicationCable::Channel
   end
   
   def start_game(params)
-    binding.pry
     game_id = params['game_id']
     game = Game.find_by(id: game_id)
-    game.start_game
-    ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
+    if game.start_game
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
+    else
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['You cannot start this game. Please ensure that there are between 2-5 players and that the game has not already been started'])
+    end
   end
 
   private 
