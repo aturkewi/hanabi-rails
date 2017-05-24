@@ -22,6 +22,14 @@ class GameRoomChannel < ApplicationCable::Channel
       ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
     end
   end
+  
+  def start_game(params)
+    binding.pry
+    game_id = params['game_id']
+    game = Game.find_by(id: game_id)
+    game.start_game
+    ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
+  end
 
   private 
 

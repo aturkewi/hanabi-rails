@@ -70,6 +70,8 @@ RSpec.describe Game, type: :model do
       game.users << create(:user)
       expect(game.start_game).to be_falsey
     end
+    
+    it 'does returns falsey if game status is not :setup'
   end
 
   describe 'validations' do 

@@ -7,6 +7,7 @@ class GameDashboard extends Component {
     super(props);
     
     this.handleJoin = this.handleJoin.bind(this)
+    this.handleStartGame = this.handleStartGame.bind(this)
     
     this.state = {
       game: {
@@ -30,6 +31,11 @@ class GameDashboard extends Component {
   handleJoin(){
     this.subscription.joinGame()
   }
+  
+  handleStartGame(){
+    this.subscription.startGame()
+  }
+
 
   componentDidMount() {
     const cable = createCable()
@@ -61,6 +67,10 @@ class GameDashboard extends Component {
         return this.perform('join_game', {game_id: self.state.game.id}) 
       },
 
+      startGame() {
+        return this.perform('start_game', {game_id: self.state.game.id});
+      },
+
       disconnected() { 
         console.log("disconnected: action cable" )
       }
@@ -79,12 +89,21 @@ class GameDashboard extends Component {
         <div>
           <h2>Current Players</h2>
           <ul>
-            {this.state.game.hands.map(h => <li key={h.user.id}>{h.user.username}</li>)}
+            {this.state.game.hands.map(h => (
+              <li key={h.user.id}>
+                {h.user.username}
+                <ul>
+                  {h.game_cards.map(c => (
+                    <li key={c.id}>{c.id}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
           </ul>
           <button onClick={this.handleJoin}>Join Game!</button>
         </div>
         <div>
-          { this.state.game.hands.length > 1 ? <button>Start Game</button> : ''}
+          { this.state.game.hands.length > 1 ? <button onClick={this.handleStartGame}>Start Game</button> : ''}
         </div>
         <div>
           <ul>
