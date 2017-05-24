@@ -1,7 +1,7 @@
 json.(game, :id, :title, :status)
 
-json.game_cards game.game_cards do |card|
-  json.(card, :id)
+json.deck game.deck do |card|
+  json.(card, :id, :color, :number)
 end
 
 json.hands game.hands do | hand |
@@ -11,8 +11,8 @@ json.hands game.hands do | hand |
     json.username hand.user.username
   end
   
-  json.game_cards hand.game_cards do | card |
-    json.(card, :id)
+  json.cards hand.game_cards do | card |
+    json.(card, :id, :color, :number)
   end
 end
 

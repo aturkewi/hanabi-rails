@@ -13,14 +13,14 @@ class GameDashboard extends Component {
       game: {
         title: '',
         id: '',
-        game_cards: [],
+        deck: [],
         hands: [
           {
             user: {
               id: '',
               username: ''
             },
-            game_cards: []
+            cards: []
           }
         ],
         status: 'setup'
@@ -93,8 +93,8 @@ class GameDashboard extends Component {
               <li key={h.user.id}>
                 {h.user.username}
                 <ul>
-                  {h.game_cards.map(c => (
-                    <li key={c.id}>{c.id}</li>
+                  {h.cards.map(c => (
+                    <li key={c.id}>{c.color + c.number}</li>
                   ))}
                 </ul>
               </li>
@@ -108,7 +108,7 @@ class GameDashboard extends Component {
         <div>
           <ul>
             <li>
-              Cards Left in Deck: {this.state.game.game_cards.length}
+              Cards Left in Deck: {this.state.game.deck.length}
               
             </li>
           </ul>
