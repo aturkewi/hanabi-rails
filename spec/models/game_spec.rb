@@ -71,7 +71,11 @@ RSpec.describe Game, type: :model do
       expect(game.start_game).to be_falsey
     end
     
-    it 'does returns falsey if game status is not :setup'
+    it 'does returns falsey if game status is not :setup' do
+      @game.start_game
+      
+      expect(@game.start_game).to be_falsey
+    end
   end
 
   describe 'validations' do 

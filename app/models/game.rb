@@ -16,8 +16,12 @@ class Game < ApplicationRecord
     self.game_cards.where(location: :deck)
   end
 
+  def is_startable?
+    self.hands.count >= 2 && self.hands.count <= 5 && status == 'setup'
+  end
+
   def start_game
-    if self.hands.count >= 2 && self.hands.count <= 5
+    if self.is_startable?
       self.hands.each { |hand| create_starting_hand(hand) }
       self.update(status: :active)
     end
