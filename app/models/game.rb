@@ -16,6 +16,10 @@ class Game < ApplicationRecord
     self.game_cards.where(location: :deck)
   end
 
+  def first_player
+    hands.find{|hand| hand.play_position == 1}
+  end
+
   def is_startable?
     self.hands.count >= 2 && self.hands.count <= 5 && status == 'setup'
   end
@@ -23,7 +27,8 @@ class Game < ApplicationRecord
   def start_game
     if self.is_startable?
       self.hands.each { |hand| create_starting_hand(hand) }
-      self.update(status: :active)
+      self.set_play_order
+      self.update(status: :active, current_player: self.first_player)
     end
   end
   
@@ -41,6 +46,14 @@ class Game < ApplicationRecord
   end
 
   protected
+  
+  def set_play_order
+    order = (1..hands.length).to_a.shuffle
+    hands.each do | hand |
+      play_position = order.pop
+      hand.update(play_position: play_position)
+    end
+  end
 
   def create_starting_hand(hand)
     number_of_starting_cards.times do

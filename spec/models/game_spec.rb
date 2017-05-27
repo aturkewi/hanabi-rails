@@ -76,6 +76,21 @@ RSpec.describe Game, type: :model do
       
       expect(@game.start_game).to be_falsey
     end
+    
+    it 'assigns play_order to all the hands' do
+      @game.start_game
+      play_orders = @game.hands.collect{|h| h.play_position}
+
+      expect(play_orders).to all( be_an(Integer) )
+    end
+    
+    it 'sets current_player' do
+      @game.start_game
+      current_player = @game.hands.find{|h| h.play_position == 1}
+
+      expect(@game.current_player).to be_a(Hand)
+      expect(@game.current_player).to eq(current_player)
+    end
   end
 
   describe 'validations' do 
