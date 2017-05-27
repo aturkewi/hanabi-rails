@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import createCable from '../../services/Cable';
 
+import GameSetup from './GameSetup';
+import ActiveGame from './ActiveGame';
+
 class GameDashboard extends Component {
 
   constructor(props) {
@@ -23,6 +26,8 @@ class GameDashboard extends Component {
             cards: []
           }
         ],
+        clue_counter: 8,
+        miss_counter: 3,
         status: 'setup'
       }
     }
@@ -68,6 +73,7 @@ class GameDashboard extends Component {
       },
 
       startGame() {
+        debugger;
         return this.perform('start_game', {game_id: self.state.game.id});
       },
 
@@ -83,38 +89,35 @@ class GameDashboard extends Component {
   }
   
   render() {
+    let componentToRender = null;
+    if (this.state.game.status == 'setup'){
+      componentToRender = <GameSetup handleJoin={this.handleJoin} handleStart={this.handleStartGame} hands={this.state.game.hands}/>
+    } else {
+      componentToRender = <ActiveGame game={this.state.game}/>
+    }
+    
     return (
       <div>
-        <h1>{this.state.game.title}</h1>
-        <div>
-          <h2>Current Players</h2>
-          <ul>
-            {this.state.game.hands.map(h => (
-              <li key={h.user.id}>
-                {h.user.username}
-                <ul>
-                  {h.cards.map(c => (
-                    <li key={c.id}>{c.color + c.number}</li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-          <button onClick={this.handleJoin}>Join Game!</button>
-        </div>
-        <div>
-          { this.state.game.hands.length > 1 ? <button onClick={this.handleStartGame}>Start Game</button> : ''}
-        </div>
+        <h1>{ this.state.game.title }</h1>
+        { componentToRender }
+      </div>
+    )
+    
+    /*
+    return (
+      <div>
+        
+        
         <div>
           <ul>
             <li>
               Cards Left in Deck: {this.state.game.deck.length}
-              
             </li>
           </ul>
         </div>
       </div>
     )
+  */
   }
 }
 
