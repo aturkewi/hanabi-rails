@@ -1,4 +1,4 @@
-json.(game, :id, :title, :status)
+json.(game, :id, :title, :status, :miss_counter, :clue_counter)
 
 json.deck game.deck do |card|
   json.(card, :id, :color, :number)
