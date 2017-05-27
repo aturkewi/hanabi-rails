@@ -102,22 +102,6 @@ class GameDashboard extends Component {
         { componentToRender }
       </div>
     )
-    
-    /*
-    return (
-      <div>
-        
-        
-        <div>
-          <ul>
-            <li>
-              Cards Left in Deck: {this.state.game.deck.length}
-            </li>
-          </ul>
-        </div>
-      </div>
-    )
-  */
   }
 }
 
