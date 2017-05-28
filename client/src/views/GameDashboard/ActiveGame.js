@@ -1,4 +1,5 @@
 import React from 'react';
+import Card from './Card'
 
 const ActiveGame = (props) => {
   return(
@@ -23,7 +24,7 @@ const ActiveGame = (props) => {
               {h.user.username}
               <ul>
                 {h.cards.map(c => (
-                  <li key={c.id}>{c.color + c.number}</li>
+                  <li key={c.id}><Card card={c} handleClue={props.handleClue.bind(null, h)} currentPlayer={false}/></li>
                 ))}
               </ul>
             </li>

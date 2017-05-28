@@ -11,6 +11,7 @@ class GameDashboard extends Component {
     
     this.handleJoin = this.handleJoin.bind(this)
     this.handleStartGame = this.handleStartGame.bind(this)
+    this.handleClue = this.handleClue.bind(this)
     
     this.state = {
       game: {
@@ -41,6 +42,9 @@ class GameDashboard extends Component {
     this.subscription.startGame()
   }
 
+  handleClue(cluedHand, clue, event){
+    this.subscription.giveClue(cluedHand.id, clue)
+  }
 
   componentDidMount() {
     const cable = createCable()
@@ -73,8 +77,15 @@ class GameDashboard extends Component {
       },
 
       startGame() {
-        debugger;
         return this.perform('start_game', {game_id: self.state.game.id});
+      },
+      
+      giveClue(handId, clue) {
+        return this.perform('give_clue', {
+          game_id: self.state.game.id,
+          hand_id: handId,
+          clue: clue
+        })
       },
 
       disconnected() { 
@@ -93,7 +104,12 @@ class GameDashboard extends Component {
     if (this.state.game.status == 'setup'){
       componentToRender = <GameSetup handleJoin={this.handleJoin} handleStart={this.handleStartGame} hands={this.state.game.hands}/>
     } else {
-      componentToRender = <ActiveGame game={this.state.game}/>
+      componentToRender = (
+        <ActiveGame
+          game={this.state.game}
+          handleClue={this.handleClue}
+        />  
+      )
     }
     
     return (
