@@ -27,6 +27,19 @@ class Game < ApplicationRecord
   def first_player
     hands.find{|hand| hand.play_position == 1}
   end
+  
+  def give_clue(hand, full_clue)
+    if clue_counter > 0
+      attribute = full_clue.keys.first
+      clue = full_clue[attribute]
+      hand.game_cards.each do |card|
+        if card.send(attribute) == clue
+          card.update("display_#{attribute}" => true)
+        end
+      end
+      self.advance_turn
+    end
+  end
 
   def is_startable?
     self.hands.count >= 2 && self.hands.count <= 5 && status == 'setup'

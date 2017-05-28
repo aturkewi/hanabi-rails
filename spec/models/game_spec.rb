@@ -37,6 +37,49 @@ RSpec.describe Game, type: :model do
     end
   end
   
+  describe '#give_clue(hand, clue)' do
+    before(:each) do
+      @game = create(:game_ready)
+      @game.start_game
+      @hand = @game.hands.sample
+    end
+    it 'updates all pertaining numbers in a players hand to visible' do
+      number = @hand.game_cards.first.number
+      @game.give_clue(@hand, {number: number})
+      all_cards_of_number = @hand.game_cards.select{|c| c.number == number}
+      
+      expect(all_cards_of_number.all?{|c| c.display_number}).to be_truthy
+    end
+    
+    it 'updates all pertaining colors in a players hand to visible' do
+      color = @hand.game_cards.first.color
+      @game.give_clue(@hand, {color: color})
+      all_cards_of_color = @hand.game_cards.select{|c| c.color == color}
+      
+      expect(all_cards_of_color.all?{|c| c.display_color}).to be_truthy
+    end
+    
+    it 'returns falsey if there are no clues to give' do
+      @game.update(clue_counter: 0)
+      number = @hand.game_cards.first.number
+      response = @game.give_clue(@hand, {number: number})
+      all_cards_of_number = @hand.game_cards.select{|c| c.number == number}
+      
+      expect(response).to be_falsey
+      expect(all_cards_of_number.all?{|c| c.display_number}).to be_falsey
+    end
+    
+    it 'advances the turn' do
+      next_player = @game.next_player
+      color = @hand.game_cards.first.color
+      @game.give_clue(@hand, {color: color})
+      all_cards_of_color = @hand.game_cards.select{|c| c.color == color}
+      
+      
+      expect(@game.current_player).to eq(next_player)
+    end
+  end
+  
   describe "#number_of_starting_cards" do 
     before(:each) do 
       @game = create(:game)
