@@ -12,6 +12,14 @@ class Game < ApplicationRecord
   after_create :create_deck 
   after_commit { GameBroadcastJob.perform_later(self) }
 
+  def advance_turn
+    if current_player.play_position == self.hands.length
+      update(current_player: first_player)
+    else
+      update(current_player: next_player)
+    end
+  end
+
   def deck
     self.game_cards.where(location: :deck)
   end
@@ -22,6 +30,10 @@ class Game < ApplicationRecord
 
   def is_startable?
     self.hands.count >= 2 && self.hands.count <= 5 && status == 'setup'
+  end
+  
+  def next_player
+    hands.find{|h| h.play_position == current_player.play_position + 1}
   end
 
   def start_game

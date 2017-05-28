@@ -2,6 +2,25 @@ require 'rails_helper'
 
 RSpec.describe Game, type: :model do
   
+  describe '#advance_turn' do
+    before(:each) do
+      @game = create(:game_ready)
+      @game.start_game
+    end
+    it 'sets the current_player to the next player' do
+      @game.advance_turn
+      expect(@game.current_player.play_position).to eq(2)
+    end
+    
+    it 'goes back to the first player when at the end of rotation' do
+      last_player = @game.hands.find{|h| h.play_position == @game.hands.length}
+      @game.update(current_player: last_player)
+      @game.advance_turn
+      
+      expect(@game.current_player).to eq(@game.first_player)
+    end
+  end
+  
   describe "#deck" do
     before(:each) do
       @game = create(:game)
