@@ -32,6 +32,18 @@ class GameRoomChannel < ApplicationCable::Channel
       ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['You cannot start this game. Please ensure that there are between 2-5 players and that the game has not already been started'])
     end
   end
+  
+  def give_clue(params)
+    game_id = params['game_id']
+    game = Game.find_by(id: game_id)
+    hand = Hand.find_by(id: params['hand_id'])
+    if game.give_clue(hand, params['clue'])
+      binding.pry
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
+    else
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['Nah, that clue is BOGUS'])
+    end
+  end
 
   private 
 
