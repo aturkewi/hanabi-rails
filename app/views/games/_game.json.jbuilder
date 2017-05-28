@@ -6,6 +6,8 @@ end
 
 json.hands game.hands do | hand |
   
+  json.id hand.id
+  
   json.user do
     json.id hand.user.id
     json.username hand.user.username
