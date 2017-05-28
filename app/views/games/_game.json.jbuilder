@@ -14,7 +14,7 @@ json.hands game.hands do | hand |
   end
   
   json.cards hand.game_cards do | card |
-    json.(card, :id, :color, :number)
+    json.(card, :id, :color, :number, :display_color, :display_number)
   end
 end
 
