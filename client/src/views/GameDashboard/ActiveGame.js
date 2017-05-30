@@ -17,7 +17,7 @@ const ActiveGame = (props) => {
             Misses remaining: { props.game.miss_counter }
           </li>
         </ul>
-        <h2>Current Players</h2>
+        <h2>Players</h2>
         <ul>
           {props.game.hands.map(h => (
             <li key={h.user.id}>
