@@ -9,7 +9,7 @@ class GameDashboard extends Component {
   constructor(props) {
     super(props);
     
-    this.handleJoin = this.handleJoin.bind(this)
+    // this.handleJoin = this.handleJoin.bind(this)
     this.handleStartGame = this.handleStartGame.bind(this)
     this.handleClue = this.handleClue.bind(this)
     
@@ -34,7 +34,7 @@ class GameDashboard extends Component {
     }
   }
   
-  handleJoin(){
+  handleJoin =()=>{
     this.subscription.joinGame()
   }
   
