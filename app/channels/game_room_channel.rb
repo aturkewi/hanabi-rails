@@ -38,7 +38,6 @@ class GameRoomChannel < ApplicationCable::Channel
     game = Game.find_by(id: game_id)
     hand = Hand.find_by(id: params['hand_id'])
     if game.give_clue(hand, params['clue'])
-      binding.pry
       ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
     else
       ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['Nah, that clue is BOGUS'])
