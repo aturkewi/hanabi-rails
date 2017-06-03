@@ -12,6 +12,8 @@ class GamesChannel < ApplicationCable::Channel
     if !game.save 
       ActionCable.server.broadcast('game_channel', errors: render_errors(game.errors.messages))
     end
+    game.users << current_user
+    ActionCable.server.broadcast('game_channel', games: render_games(games))
   end
 
   def get_games
