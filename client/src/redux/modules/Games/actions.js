@@ -16,10 +16,3 @@ export const setGames = games => {
     games
   }
 }
-
-export const addGame = game => {
-  return {
-    type: 'ADD_GAME',
-    game
-  }
-}
