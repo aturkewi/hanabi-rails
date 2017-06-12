@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import createCable from '../../services/Cable';
-import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { 
+  setGames, 
+  addGame, 
+  fetchingGames, 
+  fetchingGamesFailure 
+} from '../../redux/modules/Games/actions';
+import { Link } from 'react-router-dom';
 
 class Games extends Component { 
 
@@ -9,30 +16,25 @@ class Games extends Component {
 
     this.state = {
       inputValue: '',
-      games: []
     }
   }
   
   componentDidMount() {
-    const cable = createCable()
-    var self = this;
-    this.subscription = cable.subscriptions.create('GamesChannel', {
+    const { setGames, fetchingGamesFailure } = this.props
+    this.cable = createCable()
+    this.subscription = this.cable.subscriptions.create('GamesChannel', {
 
       connected() { 
         console.log('connected: action cable')
+        this.getGames();
       },
       
       received(data) {
-        console.log('I have received the data')
         if (data.games) {
-          var games = JSON.parse(data.games).games
-          self.setState({
-            games
-          })
-        } else if (data.game) {
-          console.log(JSON.parse(data.game))
+          setGames(JSON.parse(data.games).games)
         } else if (data.errors) {
-          console.log(JSON.parse(data.errors))
+          // TODO: error notification service action for JSON.parse(data.errors)
+          fetchingGamesFailure()
         }
       },
 
@@ -48,15 +50,11 @@ class Games extends Component {
         console.log("disconnected: action cable" )
       }
     })
-    
-    setTimeout(() => {
-      this.subscription.getGames();
-    }, 1000) 
   }
   
-  // componentWillUnmount() {
-  //   this.subscription && cable.subscriptions.remove(this.subscription);
-  // }
+  componentWillUnmount() {
+    this.subscription && this.cable.subscriptions.remove(this.subscription);
+  }
 
   handleOnSubmit = (event) => {
     event.preventDefault()
@@ -74,7 +72,7 @@ class Games extends Component {
 
   render() {
 
-    var renderGames = this.state.games.map(game => <div key={game.id}><Link to={`/games/${game.id}`}>{game.title}</Link></div>)
+    var renderGames = this.props.games.map(game => <div key={game.id}><Link to={`/games/${game.id}`}>{game.title}</Link></div>)
 
     return(
       <div>
@@ -88,5 +86,13 @@ class Games extends Component {
   }
 }
 
-export default Games;
+export default connect(
+  state => ({
+    games: state.games.list,
+    gamesStatus: state.games.status
+  }), {
+    setGames,
+    addGame
+  }
+)(Games);
 
