@@ -1,6 +1,6 @@
 const initialState = {
   list: [],
-  status: ''
+  status: 'Fetching Games'
 }
 
 export default (state = initialState, action) => {
@@ -16,19 +16,13 @@ export default (state = initialState, action) => {
     case 'FETCH_GAMES_FAILURE':
       return { 
         ...state,
-        status: 'Failure fetching games'
+        status: 'Failure Fetching Games'
       };
 
     case 'SET_GAMES':
       return {
-        ...state, 
+        status: "Games Loaded", 
         list: action.games
-      };
-
-    case 'ADD_GAME':
-      return {
-        ...state,
-        list: state.list.concat(action.game)
       };
 
     default: 
