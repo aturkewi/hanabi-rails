@@ -25,16 +25,3 @@ export const addGame = game => {
     game
   }
 }
-
-/**
- * @param {Auth} async actions
- */
-
-export const fetchGames = () => {
-  return dispatch => {
-    dispatch(fetchingGames());
-    return ApiService.get('/games')
-      .then(response => dispatch(setGames(response.games)))
-      .catch((err) => console.log(err));
-  }
-}
