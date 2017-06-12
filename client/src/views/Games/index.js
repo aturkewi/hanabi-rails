@@ -3,7 +3,6 @@ import createCable from '../../services/Cable';
 import { connect } from 'react-redux';
 import { 
   setGames, 
-  addGame, 
   fetchingGames, 
   fetchingGamesFailure 
 } from '../../redux/modules/Games/actions';
@@ -20,12 +19,13 @@ class Games extends Component {
   }
   
   componentDidMount() {
-    const { setGames, fetchingGamesFailure } = this.props
+    const { setGames, fetchingGames, fetchingGamesFailure } = this.props
     this.cable = createCable()
     this.subscription = this.cable.subscriptions.create('GamesChannel', {
 
       connected() { 
         console.log('connected: action cable')
+        fetchingGames()
         this.getGames();
       },
       
@@ -39,7 +39,8 @@ class Games extends Component {
       },
 
       createGame(title) {
-        return this.perform('create_game', { title: title });
+        this.perform('create_game', { title: title });
+        fetchingGames()
       },
 
       getGames() {
@@ -92,7 +93,8 @@ export default connect(
     gamesStatus: state.games.status
   }), {
     setGames,
-    addGame
+    fetchingGames,
+    fetchingGamesFailure
   }
 )(Games);
 
