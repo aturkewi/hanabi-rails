@@ -78,12 +78,14 @@ class GameDashboard extends Component {
     let componentToRender = null;
     if (this.props.game.status == 'setup'){
       componentToRender = <GameSetup handleJoin={this.handleJoin} handleStart={this.handleStartGame} hands={this.props.game.hands}
-      currentUser={this.props.currentUser}/>
+      currentUser={this.props.currentUser}
+    />
     }else if (this.props.game.status == 'active') {
       componentToRender = (
         <ActiveGame
           game={this.props.game}
           handleClue={this.handleClue}
+          currentUser={this.props.currentUser}
         />
       )
     }else {

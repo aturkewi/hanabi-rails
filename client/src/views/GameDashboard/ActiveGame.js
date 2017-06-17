@@ -24,7 +24,7 @@ const ActiveGame = (props) => {
               {h.user.username}
               <ul>
                 {h.cards.map(c => (
-                  <li key={c.id}><Card card={c} handleClue={props.handleClue.bind(null, h)} currentPlayer={false}/></li>
+                  <li key={c.id}><Card card={c} handleClue={props.handleClue.bind(null, h)} currentPlayer={props.currentUser.id === h.user.id}/></li>
                 ))}
               </ul>
             </li>

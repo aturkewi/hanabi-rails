@@ -17,12 +17,8 @@ class Card extends Component{
   
   render(){
     const { card, currentPlayer, handleClue } = this.props;
-    let buttons = null;
-    if(currentPlayer){
-      buttons = ( <div>
-        Do nothing
-      </div>)
-    }else{
+    let buttons = '';
+    if(!currentPlayer){
       buttons = ( <div>
         <button 
           hidden={this.state.hideOptions}
@@ -36,6 +32,7 @@ class Card extends Component{
         </button>
       </div>)
     }
+    
     const showCard = () => {
       if (currentPlayer){
         return(
