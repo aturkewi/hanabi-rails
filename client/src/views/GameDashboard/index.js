@@ -10,34 +10,6 @@ import GameSetup from './GameSetup';
 import ActiveGame from './ActiveGame';
 
 class GameDashboard extends Component {
-
-  // constructor(props) {
-  //   super(props);
-  //   
-  //   this.handleJoin = this.handleJoin.bind(this)
-  //   this.handleStartGame = this.handleStartGame.bind(this)
-  //   this.handleClue = this.handleClue.bind(this)
-  //   
-  //   this.state = {
-  //     game: {
-  //       title: '',
-  //       id: '',
-  //       deck: [],
-  //       hands: [
-  //         {
-  //           user: {
-  //             id: '',
-  //             username: ''
-  //           },
-  //           cards: []
-  //         }
-  //       ],
-  //       clue_counter: 8,
-  //       miss_counter: 3,
-  //       status: 'setup'
-  //     }
-  //   }
-  // }
   
   handleJoin =()=>{
     this.subscription.joinGame()
