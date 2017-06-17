@@ -11,15 +11,15 @@ import ActiveGame from './ActiveGame';
 
 class GameDashboard extends Component {
   
-  handleJoin =()=>{
+  handleJoin=()=>{
     this.subscription.joinGame()
   }
   
-  handleStartGame(){
+  handleStartGame=()=>{
     this.subscription.startGame()
   }
 
-  handleClue(cluedHand, clue, event){
+  handleClue=(cluedHand, clue, event)=>{
     this.subscription.giveClue(cluedHand.id, clue)
   }
 
@@ -42,9 +42,6 @@ class GameDashboard extends Component {
         if (data.game) {
           var game = JSON.parse(data.game)
           setGame(game)
-          // self.setState({
-          //   game
-          // })
         } else if (data.errors) {
           fetchingGameFailure()
           console.log(JSON.parse(data.errors))
@@ -75,11 +72,6 @@ class GameDashboard extends Component {
         console.log("disconnected: action cable" )
       }
     })
-    
-    setTimeout(() => {
-      this.subscription.getGame();
-      console.log('game gotten')
-    }, 1000) 
   }
   
   render() {
