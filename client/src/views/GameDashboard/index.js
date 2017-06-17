@@ -108,7 +108,8 @@ class GameDashboard extends Component {
 
 export default connect(
   state => ({
-    game: state.game.game
+    game: state.game.game,
+    currentUser: state.auth.currentUser
   }), {
     setGame,
     fetchingGame,
