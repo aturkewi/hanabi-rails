@@ -1,6 +1,16 @@
 import React from 'react';
 
 const GameSetup = (props) => {
+  const joinButton = () => {
+    const userInGame = props.hands.find(h =>{
+      return h.user.id === props.currentUser.id
+    })
+    if(userInGame){
+      return ''
+    }else{
+      return <button onClick={props.handleJoin}>Join Game!</button>
+    }
+  }
   return (
     <div className='player-setup'>
       <div className='player-list'>
@@ -15,7 +25,7 @@ const GameSetup = (props) => {
       </div>
       
       <div className='join-game'>
-        <button onClick={props.handleJoin}>Join Game!</button>
+        {joinButton()}
       </div>
       
       <div className='start-game'>
