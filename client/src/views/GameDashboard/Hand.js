@@ -4,10 +4,10 @@ import Card from './Card';
 
 const Hand = props => {
   return (
-    <div className={props.currentPlayer ? "current-player" : ""}>
-      <h3>{props.user.username}</h3>
+    <div className={props.isCurrentPlayer ? "current-player" : "not-current-player"}>
+      <h3>{props.hand.user.username}</h3>
       <ul className="cards">
-        {props.cards.map((c, i)=> <Card card={c} key={i} currentPlayer={props.currentPlayer} handleDiscard={props.handleDiscard} handlePlay={props.handlePlay} handleClue={props.handleClue.bind(null, props.player)}/>)}
+        {props.hand.cards.map((c, i)=> <Card card={c} key={i} currentPlayer={props.currentPlayer} handleDiscard={props.handleDiscard} handlePlay={props.handlePlay} handleClue={props.handleClue.bind(null, props.hand.user)}/>)}
       </ul>
     </div>
   )

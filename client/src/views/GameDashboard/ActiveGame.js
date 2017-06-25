@@ -1,5 +1,7 @@
 import React from 'react';
 import Card from './Card'
+import Hand from './Hand'
+import './Hand.css'
 
 const ActiveGame = (props) => {
   return(
@@ -21,12 +23,11 @@ const ActiveGame = (props) => {
         <ul>
           {props.game.hands.map(h => (
             <li key={h.user.id}>
-              {h.user.username}
-              <ul>
-                {h.cards.map(c => (
-                  <li key={c.id}><Card card={c} handleClue={props.handleClue.bind(null, h)} currentPlayer={props.currentUser.id === h.user.id}/></li>
-                ))}
-              </ul>
+              <Hand
+                isCurrentPlayer={props.game.current_player_id === h.id}
+                hand={h}
+                handleClue={props.handleClue}
+              />
             </li>
           ))}
         </ul>

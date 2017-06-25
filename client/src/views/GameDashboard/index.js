@@ -62,7 +62,7 @@ class GameDashboard extends Component {
       
       giveClue(handId, clue) {
         return this.perform('give_clue', {
-          game_id: self.state.game.id,
+          game_id: self.props.game.id,
           hand_id: handId,
           clue: clue
         })
