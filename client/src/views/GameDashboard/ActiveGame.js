@@ -25,6 +25,7 @@ const ActiveGame = (props) => {
             <li key={h.user.id}>
               <Hand
                 isCurrentPlayer={props.game.current_player_id === h.id}
+                isCurrentUser={props.currentUser.id === h.user.id}
                 hand={h}
                 handleClue={props.handleClue}
               />
