@@ -16,18 +16,11 @@ const setCurrentPlayer = game => {
 
 class GameDashboard extends Component {
   
-  handleJoin=()=>{
-    this.subscription.joinGame()
-  }
+  handleJoin = () => this.subscription.joinGame()
   
-  handleStartGame=()=>{
-    this.subscription.startGame()
-  }
+  handleStartGame = () => this.subscription.startGame()
 
-  handleClue=(cluedHand, clue)=>{
-    debugger;
-    this.subscription.giveClue(cluedHand.id, clue)
-  }
+  handleClue = (cluedHand, clue) => this.subscription.giveClue(cluedHand.id, clue)
 
   componentDidMount() {
     const { setGame, fetchingGame, fetchingGameFailure } = this.props
