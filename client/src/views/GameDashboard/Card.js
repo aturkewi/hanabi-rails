@@ -16,21 +16,23 @@ class Card extends Component{
   }
   
   render(){
-    const { card, isCurrentUser, handleClue } = this.props;
+    const { card, isCurrentUser, isCurrentPlayer, handleClue } = this.props;
     let buttons = '';
-    if(!isCurrentUser){
-      buttons = ( <div>
-        <button 
-          hidden={this.state.hideOptions}
-          onClick={handleClue ? handleClue.bind(null, {color: this.props.card.color}) : ''}>
-          Color Clue
-        </button>
-        <button
-          hidden={this.state.hideOptions}
-          onClick={handleClue ? handleClue.bind(null, {number: this.props.card.number}) : ''}>
-          Number Clue
-        </button>
-      </div>)
+    if(isCurrentPlayer){
+      if(!isCurrentUser){
+        buttons = ( <div>
+          <button 
+            hidden={this.state.hideOptions}
+            onClick={handleClue ? handleClue.bind(null, {color: this.props.card.color}) : ''}>
+            Color Clue
+          </button>
+          <button
+            hidden={this.state.hideOptions}
+            onClick={handleClue ? handleClue.bind(null, {number: this.props.card.number}) : ''}>
+            Number Clue
+          </button>
+        </div>)
+      }
     }
     
     const showCard = () => {
