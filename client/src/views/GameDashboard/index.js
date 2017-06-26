@@ -24,7 +24,8 @@ class GameDashboard extends Component {
     this.subscription.startGame()
   }
 
-  handleClue=(cluedHand, clue, event)=>{
+  handleClue=(cluedHand, clue)=>{
+    debugger;
     this.subscription.giveClue(cluedHand.id, clue)
   }
 

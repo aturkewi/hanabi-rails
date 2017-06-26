@@ -7,28 +7,24 @@ class Card extends Component{
     this.state = {
       hideOptions: true
     }
-    
-    this.handleClick = this.handleClick.bind(this);
   }
   
-  handleClick(){
-    this.setState({hideOptions: !this.state.hideOptions})
-  }
+  handleClick = () => this.setState({hideOptions: !this.state.hideOptions})
   
   render(){
-    const { card, isCurrentUser, isCurrentPlayer, handleClue } = this.props;
+    const { card, isCurrentUser, isCurrentPlayer, onClueClick } = this.props;
     let buttons = '';
     if(isCurrentPlayer){
       if(!isCurrentUser){
         buttons = ( <div>
           <button 
             hidden={this.state.hideOptions}
-            onClick={handleClue ? handleClue.bind(null, {color: this.props.card.color}) : ''}>
+            onClick={() => onClueClick({ color: this.props.card.color })}>
             Color Clue
           </button>
           <button
             hidden={this.state.hideOptions}
-            onClick={handleClue ? handleClue.bind(null, {number: this.props.card.number}) : ''}>
+            onClick={() => onClueClick({ number: this.props.card.number })}>
             Number Clue
           </button>
         </div>)
