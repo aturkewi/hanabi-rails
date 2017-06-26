@@ -7,51 +7,39 @@ class Card extends Component{
     this.state = {
       hideOptions: true
     }
-    
-    this.handleClick = this.handleClick.bind(this);
   }
   
-  handleClick(){
-    this.setState({hideOptions: !this.state.hideOptions})
-  }
+  handleClick = () => this.setState({hideOptions: !this.state.hideOptions})
   
   render(){
-    const { card, currentPlayer, handleClue } = this.props;
-    let buttons = null;
-    if(currentPlayer){
-      buttons = ( <div>
-        Do nothing
-      </div>)
-    }else{
-      buttons = ( <div>
-        <button 
-          hidden={this.state.hideOptions}
-          onClick={handleClue ? handleClue.bind(null, {color: this.props.card.color}) : ''}>
-          Color Clue
-        </button>
-        <button
-          hidden={this.state.hideOptions}
-          onClick={handleClue ? handleClue.bind(null, {number: this.props.card.number}) : ''}>
-          Number Clue
-        </button>
-      </div>)
-    }
-    const showCard = () => {
-      if (currentPlayer){
-        return(
-          <span className="font-light">
-            {`${card.colorExposed ? card.color : '****'} ${card.numberExposed ? card.number : '**'}`}
-          </span>
-        )
-      }else{
-        return(
-          <span className="font-light">{`${this.props.card.color} ${this.props.card.number}`}</span>
-        )
+    const { card, isCurrentUser, isCurrentPlayer, onClueClick } = this.props;
+    let buttons = '';
+    if(isCurrentPlayer){
+      if(!isCurrentUser){
+        buttons = ( <div>
+          <button 
+            hidden={this.state.hideOptions}
+            onClick={() => onClueClick({ color: this.props.card.color })}>
+            Color Clue
+          </button>
+          <button
+            hidden={this.state.hideOptions}
+            onClick={() => onClueClick({ number: this.props.card.number })}>
+            Number Clue
+          </button>
+        </div>)
       }
     }
+  
     return (  
       <div key={this.props.index} onClick={this.handleClick}>
-        {showCard()}
+        <span className="font-light">
+          {isCurrentUser ?
+            `${card.display_color ? card.color : '****'} ${card.display_number ? card.number : '**'}`
+            :
+            `${this.props.card.color} ${this.props.card.number}`
+          }
+        </span>
         {buttons}
       </div>
     )

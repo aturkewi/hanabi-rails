@@ -2,7 +2,7 @@ class Game < ApplicationRecord
   has_many :hands, dependent: :destroy
   has_many :users, through: :hands
   has_many :game_cards, dependent: :destroy
-  belongs_to :current_player, foreign_key: :hand_id, class_name: 'Hand', optional: true
+  belongs_to :current_player, class_name: 'Hand', optional: true
 
   enum status: [:setup, :active, :completed]
 

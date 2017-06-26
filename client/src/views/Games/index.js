@@ -97,4 +97,3 @@ export default connect(
     fetchingGamesFailure
   }
 )(Games);
-
