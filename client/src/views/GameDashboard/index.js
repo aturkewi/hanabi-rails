@@ -9,6 +9,11 @@ import {
 import GameSetup from './GameSetup';
 import ActiveGame from './ActiveGame';
 
+const setCurrentPlayer = game => {
+  const hand = game.hands.find(hand => hand.id === game.current_player_id)
+  return hand ? hand.user : { username: '' }
+}
+
 class GameDashboard extends Component {
   
   handleJoin=()=>{
@@ -86,6 +91,7 @@ class GameDashboard extends Component {
           game={this.props.game}
           handleClue={this.handleClue}
           currentUser={this.props.currentUser}
+          currentPlayer={this.props.currentPlayer}
         />
       )
     }else {
@@ -104,6 +110,7 @@ class GameDashboard extends Component {
 export default connect(
   state => ({
     game: state.game.game,
+    currentPlayer: setCurrentPlayer(state.game.game),
     currentUser: state.auth.currentUser
   }), {
     setGame,

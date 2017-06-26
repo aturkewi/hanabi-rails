@@ -4,6 +4,7 @@ import Hand from './Hand'
 import './Hand.css'
 
 const ActiveGame = (props) => {
+  
   return(
     <div className='active-game'>
       <div>
@@ -19,14 +20,15 @@ const ActiveGame = (props) => {
             Misses remaining: { props.game.miss_counter }
           </li>
         </ul>
+        <h2>It is currently {props.currentPlayer.username} turn</h2>
         <h2>Players</h2>
         <ul>
-          {props.game.hands.map(h => (
-            <li key={h.user.id}>
+          {props.game.hands.map(hand => (
+            <li key={hand.user.id}>
               <Hand
-                isCurrentPlayer={props.game.current_player_id === h.id}
-                isCurrentUser={props.currentUser.id === h.user.id}
-                hand={h}
+                isCurrentPlayer={props.game.current_player_id === hand.id}
+                isCurrentUser={props.currentUser.id === hand.user.id}
+                hand={hand}
                 handleClue={props.handleClue}
               />
             </li>
