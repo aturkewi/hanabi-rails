@@ -3,21 +3,21 @@ import React, { Component } from 'react';
 class Card extends Component{
   constructor(props){
     super(props);
-    
+
     this.state = {
       hideOptions: true
     }
   }
-  
+
   handleClick = () => this.setState({hideOptions: !this.state.hideOptions})
-  
+
   render(){
-    const { card, isCurrentUser, isCurrentPlayer, onClueClick } = this.props;
+    const { card, isCurrentUser, isCurrentPlayer, onClueClick, isMyTurn } = this.props;
     let buttons = '';
-    if(isCurrentPlayer){
+    if(isMyTurn){
       if(!isCurrentUser){
         buttons = ( <div>
-          <button 
+          <button
             hidden={this.state.hideOptions}
             onClick={() => onClueClick({ color: this.props.card.color })}>
             Color Clue
@@ -28,10 +28,23 @@ class Card extends Component{
             Number Clue
           </button>
         </div>)
+      }else{
+        buttons = (<div>
+          <button
+            hidden={this.state.hideOptions}
+            onClick={() => console.log('Play card')}>
+            Play Card
+          </button>
+          <button
+            hidden={this.state.hideOptions}
+            onClick={() => console.log('Discard Card')}>
+            Discard Card
+          </button>
+        </div>)
       }
     }
-  
-    return (  
+
+    return (
       <div key={this.props.index} onClick={this.handleClick}>
         <span className="font-light">
           {isCurrentUser ?

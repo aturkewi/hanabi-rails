@@ -4,7 +4,7 @@ import Hand from './Hand'
 import './Hand.css'
 
 const ActiveGame = (props) => {
-  
+
   return(
     <div className='active-game'>
       <div>
@@ -26,6 +26,7 @@ const ActiveGame = (props) => {
           {props.game.hands.map(hand => (
             <li key={hand.user.id}>
               <Hand
+                isMyTurn={props.game.current_player_id === props.currentUser.id}
                 isCurrentPlayer={props.game.current_player_id === hand.id}
                 isCurrentUser={props.currentUser.id === hand.user.id}
                 hand={hand}
