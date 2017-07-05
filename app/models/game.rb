@@ -37,6 +37,7 @@ class Game < ApplicationRecord
           card.update("display_#{attribute}" => true)
         end
       end
+      self.update(clue_counter: self.clue_counter - 1)
       self.advance_turn
     end
   end

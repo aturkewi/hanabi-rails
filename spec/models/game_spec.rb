@@ -75,8 +75,13 @@ RSpec.describe Game, type: :model do
       @game.give_clue(@hand, {color: color})
       all_cards_of_color = @hand.game_cards.select{|c| c.color == color}
       
-      
       expect(@game.current_player).to eq(next_player)
+    end
+    
+    it 'decreases the games clue counter by 1' do 
+      number = @hand.game_cards.first.number
+    
+      expect { @game.give_clue(@hand, { number: number }) }.to change { @game.clue_counter }.by(-1)
     end
   end
   
