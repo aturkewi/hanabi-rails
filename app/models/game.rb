@@ -57,10 +57,6 @@ class Game < ApplicationRecord
       self.update(status: :active, current_player: self.first_player)
     end
   end
-  
-  # -> create_starting_hand for each player 
-    # for each player grab a random card from the deck that has a status of location of "deck"
-    # update the card to be in the players hand and in location to be "in_hand"
     
   def number_of_starting_cards 
     case self.users.count
