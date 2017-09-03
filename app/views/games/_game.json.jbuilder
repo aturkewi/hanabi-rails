@@ -6,6 +6,14 @@ if game.status != 'setup'
   json.deck game.deck do |card|
     json.(card, :id, :color, :number)
   end
+  
+  json.played game.played do |card|
+    json.(card, :id, :color, :number)
+  end
+  
+  json.discarded game.discarded do |card|
+    json.(card, :id, :color, :number)
+  end
 end
 
 json.hands game.hands do | hand |

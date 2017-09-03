@@ -48,7 +48,7 @@ class GameRoomChannel < ApplicationCable::Channel
     game_id = params['game_id']
     game = Game.find_by(id: game_id)
     if game.play_card(params['card_id'])
-      
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", game: render_game(game))
     else
       ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['Cannot play that card'])
     end
