@@ -50,20 +50,37 @@ class Game < ApplicationRecord
     hands.find{|h| h.play_position == current_player.play_position + 1}
   end
 
-  def start_game
-    if self.is_startable?
-      self.hands.each { |hand| create_starting_hand(hand) }
-      self.set_play_order
-      self.update(status: :active, current_player: self.first_player)
-    end
-  end
-    
   def number_of_starting_cards 
     case self.users.count
     when 2, 3
       5
     when 4, 5
       4
+    end
+  end
+  
+  def play_card(card_id)
+    card = self.game_cards.find_by(id: card_id)
+    hand = card.hand
+    card.play!
+    hand.draw
+    self.advance_turn
+    
+    # find card
+    # check if its playabel
+      # move it to played
+      # 
+  end
+  
+  def played
+    self.game_cards.where(location: :played)
+  end
+  
+  def start_game
+    if self.is_startable?
+      self.hands.each { |hand| create_starting_hand(hand) }
+      self.set_play_order
+      self.update(status: :active, current_player: self.first_player)
     end
   end
 

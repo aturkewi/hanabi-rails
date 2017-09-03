@@ -43,6 +43,7 @@ RSpec.describe Game, type: :model do
       @game.start_game
       @hand = @game.hands.sample
     end
+
     it 'updates all pertaining numbers in a players hand to visible' do
       number = @hand.game_cards.first.number
       @game.give_clue(@hand, {number: number})
@@ -104,6 +105,55 @@ RSpec.describe Game, type: :model do
       expect(@game.number_of_starting_cards).to equal(4)
       @game.users << create(:user)
       expect(@game.number_of_starting_cards).to equal(4)
+    end
+  end
+  
+  describe "#play_card" do
+    before(:each) do
+      @game = create(:game_ready)
+      @game.start_game
+      @current_hand = @game.current_player
+      @card = @current_hand.game_cards.first
+    end
+    
+    context 'card is playable' do
+      it 'moves the card to the played pile' do        
+        @game.play_card(@card.id)
+        @card.reload
+        
+        expect(@card.location).to eq('played')
+      end
+      
+      it 'removes the card from the players hand' do
+        @game.play_card(@card.id)
+        @current_hand.reload
+        
+        expect(@current_hand.game_cards.pluck(:id)).not_to include(@card.id)
+      end
+      
+      it 'adds a new card to players hand' do
+        expect { @game.play_card(@card.id) }.to change{ @current_hand.reload.game_cards.count }.by(0)
+      end
+      
+      it 'advances play to the next player' do
+        @game.play_card(@card.id)
+        @game.reload
+
+        expect(@game.current_player_id).not_to eq(@current_hand.id)
+      end
+    end
+    
+    context 'card is not playable' do
+      before(:each) do
+        @game = create(:game_ready)
+        @game.start_game
+        @current_hand = @game.current_player
+        @card = @current_hand.game_cards.first
+      end
+      it 'moves the card to the discard pile'
+      it 'adds a new card to players hand'
+      it 'decrements miss counter if not playable'
+      it 'advances play to the next player'
     end
   end
 

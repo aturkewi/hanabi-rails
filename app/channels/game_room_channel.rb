@@ -43,6 +43,16 @@ class GameRoomChannel < ApplicationCable::Channel
       ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['Nah, that clue is BOGUS'])
     end
   end
+  
+  def play_card(params)
+    game_id = params['game_id']
+    game = Game.find_by(id: game_id)
+    if game.play_card(params['card_id'])
+      
+    else
+      ActionCable.server.broadcast("game_room_channel_#{game_id}", errors: ['Cannot play that card'])
+    end
+  end
 
   private 
 
