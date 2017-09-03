@@ -113,30 +113,39 @@ RSpec.describe Game, type: :model do
       @game = create(:game_ready)
       @game.start_game
       @current_hand = @game.current_player
-      @card = @current_hand.game_cards.first
+
     end
     
     context 'card is playable' do
+      before(:each) do
+        @current_hand.game_cards.first.update(
+          hand_id: nil,
+          location: :deck
+        )
+        @playable_card = @game.deck.find_by(number: 1)
+        @playable_card.update(hand_id: @current_hand.id, location: :in_hand)
+      end
+      
       it 'moves the card to the played pile' do        
-        @game.play_card(@card.id)
-        @card.reload
+        @game.play_card(@playable_card.id)
+        @playable_card.reload
         
-        expect(@card.location).to eq('played')
+        expect(@playable_card.location).to eq('played')
       end
       
       it 'removes the card from the players hand' do
-        @game.play_card(@card.id)
+        @game.play_card(@playable_card.id)
         @current_hand.reload
         
-        expect(@current_hand.game_cards.pluck(:id)).not_to include(@card.id)
+        expect(@current_hand.game_cards.pluck(:id)).not_to include(@playable_card.id)
       end
       
       it 'adds a new card to players hand' do
-        expect { @game.play_card(@card.id) }.to change{ @current_hand.reload.game_cards.count }.by(0)
+        expect { @game.play_card(@playable_card.id) }.to change{ @current_hand.reload.game_cards.count }.by(0)
       end
       
       it 'advances play to the next player' do
-        @game.play_card(@card.id)
+        @game.play_card(@playable_card.id)
         @game.reload
 
         expect(@game.current_player_id).not_to eq(@current_hand.id)
@@ -145,15 +154,42 @@ RSpec.describe Game, type: :model do
     
     context 'card is not playable' do
       before(:each) do
-        @game = create(:game_ready)
-        @game.start_game
-        @current_hand = @game.current_player
-        @card = @current_hand.game_cards.first
+        @current_hand.game_cards.first.update(
+          hand_id: nil,
+          location: :deck
+        )
+        @un_playable_card = @game.deck.find_by(number: 2)
+        @un_playable_card.update(hand_id: @current_hand.id, location: :in_hand)
       end
-      it 'moves the card to the discard pile'
-      it 'adds a new card to players hand'
-      it 'decrements miss counter if not playable'
-      it 'advances play to the next player'
+      
+      it 'moves the card to the discard pile' do
+        @game.play_card(@un_playable_card.id)
+        
+        expect(@game.discarded.pluck(:id)).to include(@un_playable_card.id)
+      end
+      
+      it 'adds a new card to players hand' do
+        expect { @game.play_card(@un_playable_card.id) }.to change{ @current_hand.reload.game_cards.count }.by(0)
+      end
+      
+      
+      it 'removes the card from the players hand' do
+        @game.play_card(@un_playable_card.id)
+        @current_hand.reload
+        
+        expect(@current_hand.game_cards.pluck(:id)).not_to include(@un_playable_card.id)
+      end
+      
+      it 'decrements miss counter if not playable' do
+        expect{ @game.play_card(@un_playable_card.id) }.to change{@game.miss_counter}.by(-1)
+      end
+      
+      it 'advances play to the next player' do
+        @game.play_card(@un_playable_card.id)
+        @game.reload
+
+        expect(@game.current_player_id).not_to eq(@current_hand.id)
+      end
     end
   end
 

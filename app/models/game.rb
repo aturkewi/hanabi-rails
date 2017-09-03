@@ -24,6 +24,10 @@ class Game < ApplicationRecord
     self.game_cards.where(location: :deck)
   end
 
+  def discarded
+    self.game_cards.where(location: :discarded)
+  end
+
   def first_player
     hands.find{|hand| hand.play_position == 1}
   end
@@ -62,14 +66,13 @@ class Game < ApplicationRecord
   def play_card(card_id)
     card = self.game_cards.find_by(id: card_id)
     hand = card.hand
-    card.play!
+    if card.playable
+      card.play!
+    else
+      misplay(card)
+    end
     hand.draw
     self.advance_turn
-    
-    # find card
-    # check if its playabel
-      # move it to played
-      # 
   end
   
   def played
@@ -102,6 +105,11 @@ class Game < ApplicationRecord
 
   def create_deck 
     Deck.cards.each { |card| self.game_cards.create(card) }
+  end
+
+  def misplay(card)
+    card.discard!
+    self.miss_counter = self.miss_counter - 1
   end
 
 end
