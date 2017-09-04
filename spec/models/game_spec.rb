@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
+
+  describe 'self.active_games' do  
+    it 'only returns games with a status of setup or active' do  
+      [0,1,2].each { |n| create(:game, status: n) }
+      
+      expect(Game.active_games.count).to eq(2)
+    end
+
+    it 'does not return games where status is completed' do  
+      game = create(:game, status: 2)
+    
+      expect(Game.active_games).not_to include(game)
+    end
+  end
   
   describe '#advance_turn' do
     before(:each) do

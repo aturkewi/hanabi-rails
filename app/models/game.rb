@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  scope :active_games, -> { where('status != ?', 2) }
+
   has_many :hands, dependent: :destroy
   has_many :users, through: :hands
   has_many :game_cards, dependent: :destroy
