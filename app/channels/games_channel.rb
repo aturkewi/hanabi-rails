@@ -17,7 +17,7 @@ class GamesChannel < ApplicationCable::Channel
   end
 
   def get_games
-    games = Game.all
+    games = Game.active_games
     ActionCable.server.broadcast('game_channel', games: render_games(games))
   end
 
